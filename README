@@ -2,3 +2,10 @@ This is your new Play application
 =================================
 
 This file will be packaged with your application, when using `activator dist`.
+
+Howto use WebTUI
+===================================
+init game: localhost:9000
+enter player: localhost:9000/Enter/2
+do dice: localhost:9000/Würfel/x
+choose figur: localhost:9000/Figur0 or localhost:9000/Figur1 etc....

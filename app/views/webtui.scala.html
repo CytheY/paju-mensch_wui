@@ -1,0 +1,5 @@
+@(message: String)
+
+@for(line <- message.split("\n")) {
+    <p>@line</p>
+}

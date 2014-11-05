@@ -1,5 +1,5 @@
 @(message: String)
 
 @for(line <- message.split("\n")) {
-    <p>@line</p>
+    @for(seq <- line.split(" ")){@seq &nbsp;}</br>
 }

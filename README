@@ -6,6 +6,6 @@ This file will be packaged with your application, when using `activator dist`.
 Howto use WebTUI
 ===================================
 init game: localhost:9000
-enter player: localhost:9000/Enter/2
-do dice: localhost:9000/Würfel/x
-choose figur: localhost:9000/Figur0 or localhost:9000/Figur1 etc....
+enter player: http://localhost:9000/tui?e=Enter&i=<numer Players>
+do dice: http://localhost:9000/tui?e=Würfel
+choose figur: http://localhost:9000/tui?e=Figur0 or http://localhost:9000/tui?e=Figur1 etc....

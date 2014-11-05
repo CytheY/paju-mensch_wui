@@ -1,10 +1,10 @@
-package uis;
+package de.paju.mensch.play.uis;
 
 import java.io.File;
 
-import view.TextGUI;
-import controller.Controller;
-import controller.Controller.GAME_STATE;
+import de.paju.mensch.view.TextGUI;
+import de.paju.mensch.controller.Controller;
+import de.paju.mensch.controller.Controller.GAME_STATE;
 
 public class WebTUI extends TextGUI {
 	

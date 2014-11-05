@@ -3,8 +3,9 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
-GET     /:command/:input         controllers.Application.nextStep(command: String, input: String)
+GET     /                           de.paju.mensch.play.controllers.Application.index()
+GET		/tui					de.paju.mensch.play.controllers.Application.tui(e: String ?= "", i: String ?= "")
+#GET     /:command/:input         de.paju.mensch.play.controllers.Application.nextStep(command: String, input: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

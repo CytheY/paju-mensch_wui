@@ -1,3 +1,4 @@
+package de.paju.mensch.play.test;
 import org.junit.*;
 
 import play.mvc.*;

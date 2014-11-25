@@ -4,7 +4,7 @@
 		Welcome 
 	</div>
 
-	<div id="PlayGrid">
+	<div id="gameGrid">
 		<!--  AJAX-filled with game grid -->
 	</div>
 
@@ -17,7 +17,7 @@
 			
 			$.get('/gameGrid')
 			.done(function (data, textStatus, jqXHR) {
-					$('#PlayGrid').html(data);
+					$('#gameGrid').html(data);
 			}).fail(function () {
 				console.error('ajax error');
 			});
@@ -30,11 +30,11 @@
 
 	
 		/* click handler for menu items */
-		$('#PlayGrid').on('mousedown', 'a.MenuItem', function (e) {
+		$('#gameGrid').on('mousedown', 'a.MenuItem', function (e) {
 			e.preventDefault();
 		});
 		/* click handler for level buttons */
-		$('#PlayGrid').on('mousedown', 'a.levelButton', function (e) {
+		$('#gameGrid').on('mousedown', 'a.levelButton', function (e) {
 			e.preventDefault();
 		});
 	

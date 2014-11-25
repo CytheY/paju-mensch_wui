@@ -1,0 +1,46 @@
+@main("Breakout") {
+	
+	<div class="TechInfo">
+		Welcome 
+	</div>
+
+	<div id="PlayGrid">
+		<!--  AJAX-filled with game grid -->
+	</div>
+
+
+	<script type="text/javascript">
+	
+	$(document).ready(function() {
+		
+		function refresh() {
+			
+			$.get('/gameGrid')
+			.done(function (data, textStatus, jqXHR) {
+					$('#PlayGrid').html(data);
+			}).fail(function () {
+				console.error('ajax error');
+			});
+			setTimeout(function() {refresh(); }, 33);  // set timer for polling
+		}
+		// key pressed
+		$('body').keydown(function(event) {
+			
+		});
+
+	
+		/* click handler for menu items */
+		$('#PlayGrid').on('mousedown', 'a.MenuItem', function (e) {
+			e.preventDefault();
+		});
+		/* click handler for level buttons */
+		$('#PlayGrid').on('mousedown', 'a.levelButton', function (e) {
+			e.preventDefault();
+		});
+	
+		setTimeout(function() {refresh(); }, 1);  // get first game frame
+	
+	});
+	</script>
+
+}

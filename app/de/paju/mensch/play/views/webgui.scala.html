@@ -1,4 +1,4 @@
-@main("Breakout") {
+@main("PajuMensch") {
 	
 	<div class="TechInfo">
 		Welcome 
@@ -11,36 +11,7 @@
 
 	<script type="text/javascript">
 	
-	$(document).ready(function() {
-		
-		function refresh() {
-			
-			$.get('/gameGrid')
-			.done(function (data, textStatus, jqXHR) {
-					$('#gameGrid').html(data);
-			}).fail(function () {
-				console.error('ajax error');
-			});
-			setTimeout(function() {refresh(); }, 33);  // set timer for polling
-		}
-		// key pressed
-		$('body').keydown(function(event) {
-			
-		});
-
 	
-		/* click handler for menu items */
-		$('#gameGrid').on('mousedown', 'a.MenuItem', function (e) {
-			e.preventDefault();
-		});
-		/* click handler for level buttons */
-		$('#gameGrid').on('mousedown', 'a.levelButton', function (e) {
-			e.preventDefault();
-		});
-	
-		setTimeout(function() {refresh(); }, 1);  // get first game frame
-	
-	});
 	</script>
 
 }

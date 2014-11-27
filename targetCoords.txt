@@ -1,0 +1,16 @@
+50 250 Spieler1
+100 250 Spieler1
+150 250 Spieler1
+200 250 Spieler1
+250 50 Spieler2
+250 100 Spieler2
+250 150 Spieler2
+250 200 Spieler2
+450 250 Spieler3
+400 250 Spieler3
+350 250 Spieler3
+300 250 Spieler3
+250 450 Spieler4
+250 400 Spieler4
+250 350 Spieler4
+250 300 Spieler4

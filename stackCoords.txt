@@ -1,0 +1,16 @@
+0 0 Spieler1
+0 50 Spieler1
+50 0 Spieler1
+50 50 Spieler1
+450 0 Spieler2
+450 50 Spieler2
+500 0 Spieler2
+500 50 Spieler2
+450 450 Spieler3
+450 500 Spieler3
+500 450 Spieler3
+500 500 Spieler3
+0 450 Spieler4
+0 500 Spieler4
+50 450 Spieler4
+50 500 Spieler4

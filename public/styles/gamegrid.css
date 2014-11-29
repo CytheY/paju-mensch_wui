@@ -1,0 +1,21 @@
+.gameCell {
+	height: 50px;
+	width: 50px;
+	background-color: white;
+	border: 1px solid black;
+	border-radius: 50px;
+}
+
+.stackCell {
+	height: 50px;
+	width: 50px;
+	border: 1px solid black;
+	border-radius: 50px;
+}
+
+.targetCell {
+	height: 50px;
+	width: 50px;
+	border: 1px solid black;
+	border-radius: 50px;
+}

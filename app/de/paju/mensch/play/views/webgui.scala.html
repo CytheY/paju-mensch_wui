@@ -1,26 +1,13 @@
-<script src='@routes.Assets.at("javascripts/jquery-2.1.1.min.js")'>
-
 @main("PajuMensch") {
-	<div class="TechInfo">
-		Welcome 
-	</div>
-
+	<!--  AJAX-filled with game grid -->
 	<div id="gameGrid">
-		<!--  AJAX-filled with game grid -->
-		<script type="text/javascript">
+	</div>
+	<script type="text/javascript">
 		$.ajax({
 			url: "gameGrid",
 			context: document.body
 			}).done(function(data) {
 			$("#gameGrid").html(data);
 		});
-		</script>
-	</div>
-
-
-	<script type="text/javascript">
-	
-	
 	</script>
-
 }

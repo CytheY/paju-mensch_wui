@@ -1,15 +1,32 @@
 @(message: String, field: List[String], stack: List[String], target: List[String])
-
-<link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/gamegrid.css")'>
-
-<div class="GameGridContainer" style="">
-		@for(i <- 0 until field.length) {
-    		<div class="gameCell" id="gameCell_@i" style="position:absolute; top:@(field(i).split(' ').apply(0)); left:@(field(i).split(' ').apply(1))"></div>
+	@for(i <- 0 until field.length) {
+   		<div class="gameCell" id="gameCell_@i" style="position:absolute; top:@(field(i).split(' ').apply(0))px; left:@(field(i).split(' ').apply(1))px"></div>
+	}
+	@for(i <- 0 until stack.length) {
+		@if(i / 4 == 0){
+   			<div class="stackCell" id="stackCell_@i" style="position:absolute; top:@(stack(i).split(' ').apply(0))px; left:@(stack(i).split(' ').apply(1))px; background-color:yellow"></div>
 		}
-		@for(i <- 0 until stack.length) {
-    		<div class="stackCell" id="stackCell_@i" style="position:absolute; top:@(stack(i).split(' ').apply(0)); left:@(stack(i).split(' ').apply(1))"></div>
+		@if(i / 4 == 1){
+   			<div class="stackCell" id="stackCell_@i" style="position:absolute; top:@(stack(i).split(' ').apply(0))px; left:@(stack(i).split(' ').apply(1))px; background-color:green"></div>
 		}
-		@for(i <- 0 until target.length) {
-    		<div class="targetCell" id="targetCell_@i" style="position:absolute; top:@(target(i).split(' ').apply(0)); left:@(target(i).split(' ').apply(1))"></div>
+		@if(i / 4 == 2){
+   			<div class="stackCell" id="stackCell_@i" style="position:absolute; top:@(stack(i).split(' ').apply(0))px; left:@(stack(i).split(' ').apply(1))px; background-color:blue"></div>
 		}
-</div>
+		@if(i / 4 == 3){
+   			<div class="stackCell" id="stackCell_@i" style="position:absolute; top:@(stack(i).split(' ').apply(0))px; left:@(stack(i).split(' ').apply(1))px; background-color:red"></div>
+		}
+	}
+	@for(i <- 0 until target.length) {
+		@if(i / 4 == 0){
+   			<div class="targetCell" id="targetCell_@i" style="position:absolute; top:@(target(i).split(' ').apply(0))px; left:@(target(i).split(' ').apply(1))px; background-color:red"></div>
+		}
+		@if(i / 4 == 1){
+   			<div class="targetCell" id="targetCell_@i" style="position:absolute; top:@(target(i).split(' ').apply(0))px; left:@(target(i).split(' ').apply(1))px; background-color:yellow"></div>
+		}
+		@if(i / 4 == 2){
+   			<div class="targetCell" id="targetCell_@i" style="position:absolute; top:@(target(i).split(' ').apply(0))px; left:@(target(i).split(' ').apply(1))px; background-color:green"></div>
+		}
+		@if(i / 4 == 3){
+   			<div class="targetCell" id="targetCell_@i" style="position:absolute; top:@(target(i).split(' ').apply(0))px; left:@(target(i).split(' ').apply(1))px; background-color:blue"></div>
+		}
+	}

@@ -8,7 +8,6 @@ import play.mvc.Result;
 import de.paju.mensch.controller.Controller;
 import de.paju.mensch.play.uis.WebTUI;
 import de.paju.mensch.play.views.html.gamegrid;
-import de.paju.mensch.play.views.html.webgui;
 import de.paju.mensch.play.views.html.webtui;
 
 
@@ -22,11 +21,16 @@ public class Application extends play.mvc.Controller {
     public static Result index() {
     	game.addObserver(tui);
     	game.start();
-        return ok();
+        return ok(de.paju.mensch.play.views.html.main.render("PajuMensch"));
     }
     
     public static Result tui(String e, String input){
     	String output = tui.nextStep(e, input);
+    	return ok(webtui.render(output));
+    }
+    
+    public static Result init(String e){
+    	String output = tui.nextStep("Enter", e);
     	return ok(webtui.render(output));
     }
     
@@ -49,7 +53,15 @@ public class Application extends play.mvc.Controller {
     	return ok(gamegrid.render(message, field, stack, target));
     }
     
-    public static Result webGui() {
-    	return ok(webgui.render());
+//    public static Result webGui() {
+//    	return ok(webgui.render());
+//    }
+    
+    public static Result exit(){
+    	game = new Controller();
+    	tui = new WebTUI(game);
+    	game.addObserver(tui);
+    	game.start();
+    	return ok("Game restarted");
     }
 }

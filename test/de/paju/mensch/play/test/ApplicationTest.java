@@ -24,7 +24,7 @@ public class ApplicationTest {
 
     @Test
     public void renderTemplate() {
-        Content html = de.paju.mensch.play.views.html.index.render();
+        Content html = de.paju.mensch.play.views.html.main.render("Test");
         assertThat(contentType(html)).isEqualTo("text/html");
         assertThat(contentAsString(html)).contains("Your new application is ready.");
     }

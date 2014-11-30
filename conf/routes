@@ -6,8 +6,9 @@
 GET     /                           de.paju.mensch.play.controllers.Application.index()
 GET		/tui					de.paju.mensch.play.controllers.Application.tui(e: String ?= "", i: String ?= "")
 GET		/gameGrid				de.paju.mensch.play.controllers.Application.gameGrid()
-GET		/webgui					de.paju.mensch.play.controllers.Application.webGui()
+#GET		/webgui					de.paju.mensch.play.controllers.Application.webGui()
 #GET     /:command/:input         de.paju.mensch.play.controllers.Application.nextStep(command: String, input: String)
-
+GET         /init         de.paju.mensch.play.controllers.Application.init(e: String ?= "4")
+GET         /exit         de.paju.mensch.play.controllers.Application.exit()
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

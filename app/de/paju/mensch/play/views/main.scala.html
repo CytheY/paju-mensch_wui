@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String)
 
 <!DOCTYPE html>
 
@@ -9,10 +9,30 @@
 		<link rel="icon" href="@routes.Assets.at("images/favicon.jpg")" type="image/jpeg">
 		<link rel="stylesheet" type="text/css" href='@routes.Assets.at("styles/main.css")'/>
 	   	<link rel="stylesheet" type="text/css" href='@routes.Assets.at("styles/gamegrid.css")'/>
+	   	<link rel="stylesheet" type="text/css" href='@routes.Assets.at("styles/bootstrap.min.css")'/>
 		<link rel="icon" href='@routes.Assets.at("images/favicon.jpg")' type="image/jpeg"/>
 		<script src='@routes.Assets.at("js/jquery-2.1.1.min.js")'></script>
+		<script src='@routes.Assets.at("js/bootstrap.min.js")'></script>
+		<script src='@routes.Assets.at("js/navigation.js")'></script>
     </head>
     <body>
-        @content
+    	<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">@title</a>
+				</div>
+					<ul class="nav navbar-nav">
+	                <li id="buttonStart"><a href="#" onclick="startGame();">Start</a></li>
+	                <li id="buttonGameGrid"><a href="#" onclick="getGameGrid();">Show game</a></li>
+	                <li id="buttonExit"><a href="#" onclick="exit();">Exit</a></li>
+	            </ul>
+			</div>
+		</nav>
+	    <div class="container" id="mainContainer">
+       		<div id="gameGrid"></div>
+       	</div>
+        <div id="footer" class="well">
+	        <div id="status"></div>
+	    </div>
     </body>
 </html>

@@ -10,5 +10,8 @@ GET		/gameGrid				de.paju.mensch.play.controllers.Application.gameGrid()
 #GET     /:command/:input         de.paju.mensch.play.controllers.Application.nextStep(command: String, input: String)
 GET         /init         de.paju.mensch.play.controllers.Application.init(e: String ?= "4")
 GET         /exit         de.paju.mensch.play.controllers.Application.exit()
+GET         /doDice         de.paju.mensch.play.controllers.Application.doDice()
+GET         /socket         de.paju.mensch.play.controllers.Application.socket()
+GET         /fig         de.paju.mensch.play.controllers.Application.chooseFigure(e: Integer)
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -5,33 +5,66 @@ import java.util.ArrayList;
 import java.util.List;
 
 import play.mvc.Result;
+import play.mvc.WebSocket;
 import de.paju.mensch.controller.Controller;
+import de.paju.mensch.controller.Controller.GAME_STATE;
+import de.paju.mensch.play.uis.WebGUI;
 import de.paju.mensch.play.uis.WebTUI;
+import de.paju.mensch.play.uis.websockets.GameWebSocket;
 import de.paju.mensch.play.views.html.gamegrid;
 import de.paju.mensch.play.views.html.webtui;
+import de.paju.mensch.view.GUI;
 
 
 public class Application extends play.mvc.Controller {
 	
-	private static Controller game = new Controller();
-	private static WebTUI tui = new WebTUI(game);
+	private static Controller game;
+	private static WebTUI tui;
+//	private static GUI gui;
+	private static GameWebSocket gameSocket;
+	private static WebGUI webGUI;
 	
 
 
     public static Result index() {
-    	game.addObserver(tui);
-    	game.start();
+    	game = new Controller();
+    	tui = new WebTUI(game);
+//    	gui = new GUI(game);
+    	gameSocket = new GameWebSocket();
+    	webGUI = new WebGUI(game, gameSocket);
         return ok(de.paju.mensch.play.views.html.main.render("PajuMensch"));
     }
     
-    public static Result tui(String e, String input){
-    	String output = tui.nextStep(e, input);
-    	return ok(webtui.render(output));
+    public static Result init(String e){
+    	if(game == null)
+    		game = new Controller();
+    	if(tui == null)
+    		tui = new WebTUI(game);
+    	if(gameSocket == null)
+    		gameSocket = new GameWebSocket();
+    	if(webGUI == null)
+    		webGUI = new WebGUI(game, gameSocket);
+//    	if(gui == null)
+//    		gui = new GUI(game);
+    	game.addObserver(tui);
+    	game.addObserver(webGUI);
+//    	game.addObserver(gui);
+    	game.start();
+//    	if(game.getStatus() == GAME_STATE.CHOOSE_PLAYER_COUNT){
+    		game.inputPlayerCount(Integer.parseInt(e));
+//    	}
+    	return ok(game.getStatus().toString());
     }
     
-    public static Result init(String e){
-    	String output = tui.nextStep("Enter", e);
-    	return ok(webtui.render(output));
+    public static Result doDice(){
+    	if (game.getStatus() == GAME_STATE.ROLL){
+    		game.doDice();
+    	}
+    	return ok(Integer.toString(game.getRoll()));
+    }
+    
+    public static WebSocket<String> socket(){
+    	return gameSocket;
     }
     
     public static Result gameGrid(){
@@ -50,7 +83,12 @@ public class Application extends play.mvc.Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	return ok(gamegrid.render(message, field, stack, target));
+    	return ok(gamegrid.render(message, field, stack, target, game.getAnzahlMitspieler()));
+    }
+    
+    public static Result chooseFigure(Integer fig){
+    	game.setPickFigure(fig);
+    	return ok();
     }
     
 //    public static Result webGui() {
@@ -58,10 +96,14 @@ public class Application extends play.mvc.Controller {
 //    }
     
     public static Result exit(){
-    	game = new Controller();
-    	tui = new WebTUI(game);
-    	game.addObserver(tui);
-    	game.start();
+    	game = null;
+    	tui = null;
+    	webGUI = null;
     	return ok("Game restarted");
+    }
+    
+    public static Result tui(String e, String input){
+    	String output = tui.nextStep(e, input);
+    	return ok(webtui.render(output));
     }
 }

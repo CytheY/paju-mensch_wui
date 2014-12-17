@@ -1,32 +1,32 @@
-@(message: String, field: List[String], stack: List[String], target: List[String])
+@(message: String, field: List[String], stack: List[String], target: List[String], anzPlayer: Integer)
 	@for(i <- 0 until field.length) {
-   		<div class="gameCell" id="gameCell_@i" style="position:absolute; top:@(field(i).split(' ').apply(0))px; left:@(field(i).split(' ').apply(1))px"></div>
+   		<div class="gameCell" id="gameCell_@i" style="position:absolute; top:@(field(i).split(' ').apply(1))px; left:@(field(i).split(' ').apply(0))px"></div>
 	}
 	@for(i <- 0 until stack.length) {
-		@if(i / 4 == 0){
-   			<div class="stackCell" id="stackCell_@i" style="position:absolute; top:@(stack(i).split(' ').apply(0))px; left:@(stack(i).split(' ').apply(1))px; background-color:yellow"></div>
+		@if(i / 4 == 0 && anzPlayer >= 1){
+   			<div class="stackCell player0 figure@(i%4)" id="stackCell_@i" style="position:absolute; top:@(stack(i).split(' ').apply(1))px; left:@(stack(i).split(' ').apply(0))px;"></div>
 		}
-		@if(i / 4 == 1){
-   			<div class="stackCell" id="stackCell_@i" style="position:absolute; top:@(stack(i).split(' ').apply(0))px; left:@(stack(i).split(' ').apply(1))px; background-color:green"></div>
+		@if(i / 4 == 1 && anzPlayer >= 2){
+   			<div class="stackCell player1 figure@(i%4)" id="stackCell_@i" style="position:absolute; top:@(stack(i).split(' ').apply(1))px; left:@(stack(i).split(' ').apply(0))px;"></div>
 		}
-		@if(i / 4 == 2){
-   			<div class="stackCell" id="stackCell_@i" style="position:absolute; top:@(stack(i).split(' ').apply(0))px; left:@(stack(i).split(' ').apply(1))px; background-color:blue"></div>
+		@if(i / 4 == 2 && anzPlayer >= 3){
+   			<div class="stackCell player2 figure@(i%4)" id="stackCell_@i" style="position:absolute; top:@(stack(i).split(' ').apply(1))px; left:@(stack(i).split(' ').apply(0))px;"></div>
 		}
-		@if(i / 4 == 3){
-   			<div class="stackCell" id="stackCell_@i" style="position:absolute; top:@(stack(i).split(' ').apply(0))px; left:@(stack(i).split(' ').apply(1))px; background-color:red"></div>
+		@if(i / 4 == 3 && anzPlayer >= 4){
+   			<div class="stackCell player3 figure@(i%4)" id="stackCell_@i" style="position:absolute; top:@(stack(i).split(' ').apply(1))px; left:@(stack(i).split(' ').apply(0))px;"></div>
 		}
 	}
 	@for(i <- 0 until target.length) {
 		@if(i / 4 == 0){
-   			<div class="targetCell" id="targetCell_@i" style="position:absolute; top:@(target(i).split(' ').apply(0))px; left:@(target(i).split(' ').apply(1))px; background-color:red"></div>
+   			<div class="targetCell player0 empty" id="targetCell_@i" style="position:absolute; top:@(target(i).split(' ').apply(1))px; left:@(target(i).split(' ').apply(0))px;"></div>
 		}
 		@if(i / 4 == 1){
-   			<div class="targetCell" id="targetCell_@i" style="position:absolute; top:@(target(i).split(' ').apply(0))px; left:@(target(i).split(' ').apply(1))px; background-color:yellow"></div>
+   			<div class="targetCell player1 empty" id="targetCell_@i" style="position:absolute; top:@(target(i).split(' ').apply(1))px; left:@(target(i).split(' ').apply(0))px;"></div>
 		}
 		@if(i / 4 == 2){
-   			<div class="targetCell" id="targetCell_@i" style="position:absolute; top:@(target(i).split(' ').apply(0))px; left:@(target(i).split(' ').apply(1))px; background-color:green"></div>
+   			<div class="targetCell player2 empty" id="targetCell_@i" style="position:absolute; top:@(target(i).split(' ').apply(1))px; left:@(target(i).split(' ').apply(0))px;"></div>
 		}
 		@if(i / 4 == 3){
-   			<div class="targetCell" id="targetCell_@i" style="position:absolute; top:@(target(i).split(' ').apply(0))px; left:@(target(i).split(' ').apply(1))px; background-color:blue"></div>
+   			<div class="targetCell player3 empty" id="targetCell_@i" style="position:absolute; top:@(target(i).split(' ').apply(1))px; left:@(target(i).split(' ').apply(0))px;"></div>
 		}
 	}

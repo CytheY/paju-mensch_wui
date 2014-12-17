@@ -20,8 +20,28 @@
 	border-radius: 50px;
 }
 
+.player0 {
+	background-color: green;
+}
+
+.player1 {
+	background-color: yellow;
+}
+
+.player2 {
+	background-color: blue;
+}
+
+.player3 {
+	background-color: red;
+}
+
+.empty {
+	opacity: 0.5;
+}
+
 #mainContainer{
-	width:575px;
-	height: 575px;
+	width:550px;
+	height:550px;
 	position:relative;
 }

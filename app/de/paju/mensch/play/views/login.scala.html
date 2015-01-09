@@ -19,34 +19,39 @@
 		  <h1>Mensch ärgere dich nicht!</h1>
 		  <p>Log in and ärgere you!</p>
 		</div>
-		<div class="form_wrapper">  	
-		  	@helper.form(de.paju.mensch.play.controllers.routes.Application.authenticate) {
-				@if(form.hasGlobalErrors) {
-				    <div class="alert alert-danger">@form.globalError.message</div>
-				}	    
-			   <div class="form-group">
-			    <label for="inputUsername" class="col-sm-2 control-label">Username</label>
-			    <div class="col-sm-10">
-			      <input type="text" name="user" class="form-control" id="inputUsername" placeholder="Username">
-			    </div>
-			  </div>
-			  <div class="form-group">
-			    <label for="inputPassword" class="col-sm-2 control-label">Password</label>
-			    <div class="col-sm-10">
-			      <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="Password">
-			    </div>
-			  </div>
-			  <div class="form-group">
-			    <div class="col-sm-offset-2 col-sm-10">
-			      <button type="submit" class="btn btn-default">Sign in</button>
-			    </div>
-			  </div>
-			}
-		  	<button type="button" class="btn btn-default navbar-btn" id="btnOpenID">Login with OpenID</button>
-		  		
-		</div>  	
-			
-			
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form_wrapper">  	
+				  	@helper.form(de.paju.mensch.play.controllers.routes.Application.authenticate) {
+						@if(form.hasGlobalErrors) {
+						    <div class="alert alert-danger">@form.globalError.message</div>
+						}	    
+					   <div class="form-group">
+					    <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+					    <div class="col-sm-10">
+					      <input type="text" name="user" class="form-control" id="inputUsername" placeholder="Username">
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+					    <div class="col-sm-10">
+					      <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="Password">
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <div class="col-sm-offset-2 col-sm-10">
+					      <button type="submit" class="btn btn-default">Sign in</button>
+					    </div>
+					  </div>
+					}
+				  	
+				</div>
+			</div>
+			<div class="col-md-6">    
+			    
+				<div class="googleSign_logo" id="btnOpenID">Login with OpenID</div>		
+			</div>
+		</div>	
 		  	
         <script type="text/javascript">
 			$('#btnOpenID').click(function () {

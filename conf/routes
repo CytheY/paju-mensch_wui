@@ -6,6 +6,12 @@
 GET     /                           de.paju.mensch.play.controllers.Application.index()
 GET		/tui					de.paju.mensch.play.controllers.Application.tui(e: String ?= "", i: String ?= "")
 GET		/gameGrid				de.paju.mensch.play.controllers.Application.gameGrid()
+#Login
+GET     /login                 de.paju.mensch.play.controllers.Application.login()
+POST    /login                 de.paju.mensch.play.controllers.Application.authenticate()
+#OpenID Login
+GET		/auth					de.paju.mensch.play.controllers.Application.auth()
+GET		/verify					@de.paju.mensch.play.controllers.Application.verify()
 #GET		/webgui					de.paju.mensch.play.controllers.Application.webGui()
 #GET     /:command/:input         de.paju.mensch.play.controllers.Application.nextStep(command: String, input: String)
 GET         /init         de.paju.mensch.play.controllers.Application.init(e: String ?= "4")

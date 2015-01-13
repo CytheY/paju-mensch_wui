@@ -11,13 +11,15 @@ import de.paju.mensch.play.uis.websockets.GameWebSocket;
 
 public class WebGUI implements IObserver {
 	
+	private String gameName;
 	private Controller controller;
-	private GameWebSocket gameWebSocket;
+	private List<GameWebSocket> sockets;
 	
-	public WebGUI(Controller controller, GameWebSocket statusSocket) {
+	public WebGUI(String gameName, Controller controller, List<GameWebSocket> sockets) {
 		super();
+		this.gameName = gameName;
 		this.controller = controller;
-		this.gameWebSocket = statusSocket;
+		this.sockets = sockets;
 	}
 
 	@Override
@@ -29,31 +31,41 @@ public class WebGUI implements IObserver {
 	@Override
 	public void updateChooseFigure() {
 		System.out.println("updateChooseFigure called");
-		gameWebSocket.updateStatus(controller.getStatus().toString());
+		for (GameWebSocket gameWebSocket : sockets) {
+			gameWebSocket.updateStatus(controller.getStatus().toString());
+		}
 	}
 
 	@Override
 	public void updateInput() {
 		System.out.println("updateInput called");
-		gameWebSocket.updateStatus(controller.getStatus().toString());
+		for (GameWebSocket gameWebSocket : sockets) {
+			gameWebSocket.updateStatus(controller.getStatus().toString());
+		}
 	}
 
 	@Override
 	public void updateObserversRoll() {
 		System.out.println("updateShowGameFrame called");
-		gameWebSocket.updateStatus(controller.getStatus().toString());
+		for (GameWebSocket gameWebSocket : sockets) {
+			gameWebSocket.updateStatus(controller.getStatus().toString());
+		}
 	}
 
 	@Override
 	public void updatePlayerStatus() {
 		System.out.println("updatePlayerStatus called");
-		gameWebSocket.updatePlayer(controller.getActivePlayer().getPlayerID());
+		for (GameWebSocket gameWebSocket : sockets) {
+			gameWebSocket.updatePlayer(controller.getActivePlayer().getPlayerID());
+		}
 	}
 
 	@Override
 	public void updatePrintDice() {
 		System.out.println("updatePrintDice called");
-		gameWebSocket.updateDice(controller.getRoll());
+		for (GameWebSocket gameWebSocket : sockets) {
+			gameWebSocket.updateDice(controller.getRoll());
+		}
 	}
 
 	@Override
@@ -74,7 +86,9 @@ public class WebGUI implements IObserver {
 					targets.add("{ \"id\":" + controller.getTargetFigureArray(i)[j].getFigureID() +", \"playerID\": " + controller.getTargetFigureArray(i)[j].getPlayerID() + ", \"targetPos\": " + j  + "}");
 			}
 		}
-		gameWebSocket.showGameFrame(Application.gameGrid().toString(), controller.getPgArray(), targets);
+		for (GameWebSocket gameWebSocket : sockets) {
+			gameWebSocket.showGameFrame(Application.gameGrid(gameName).toString(), controller.getPgArray(), targets);
+		}
 	}
 
 }

@@ -23,8 +23,11 @@
 					<a class="navbar-brand" href="#">@title</a>
 				</div>
 					<ul class="nav navbar-nav">
-	                <li id="buttonStart"><a href="#" onclick="startGame();">Start</a></li>
-	                <li id="buttonDice"><a href="#" onclick="doDice();">Dice</a></li>
+	                <li id="buttonNew"><a href="#" onclick="startGame();">Neues Spiel</a></li>
+	                <li id="buttonEnter"><a href="#" onclick="startGame();">Spiel Beitreten</a></li>
+	                <li id="buttonLobby"><a href="#" onclick="refreshLobby();">Lobby aktualisieren</a></li>
+	                <li id="buttonStart"><a href="#" onclick="begin();">Spiel starten</a></li>
+	                <!-- li id="buttonDice"><a href="#" onclick="doDice();">Dice</a></li-->
 	                <!--li id="buttonChooseFig"><a href="#" onclick="chooseFig();">Choose Figure</a></li-->
 	                <li id="buttonExit"><a href="#" onclick="exit();">Exit</a></li>
 	            </ul>
@@ -32,7 +35,8 @@
 		</nav>
 		<div class="container" id="status"></div>
 	    <div class="container" id="mainContainer">
-       		<div id="gameGrid"></div>
+       		<div class="container" id="gameGrid"></div>
+       		<div class="container" id="lobby"></div>
        	</div>
        	<div class="container" id="dice"></div>
     </body>

@@ -30,72 +30,82 @@ public class Application extends play.mvc.Controller {
 	// private static WebGUI webGUI;
 
 	public static Result index() {
-		if (!sessions.containsKey(SUPER_USER)) {
-			sessions.put(SUPER_USER, new GameSession());
-			sessions.get(SUPER_USER).start();
-		}
+//		if (!sessions.containsKey(SUPER_USER)) {
+//			sessions.put(SUPER_USER, new GameSession());
+//			sessions.get(SUPER_USER).start();
+//		}
 		return ok(de.paju.mensch.play.views.html.main.render("PajuMensch"));
 	}
 
-	public static Result init(String e) {
-		if (!sessions.containsKey(SUPER_USER)) {
-			return redirect(routes.Application.index());
+	public static Result init(String game) {
+		if(sessions.containsKey(game)){
+			return ok("Spiel existiert bereits!");
 		}
-		sessions.get(SUPER_USER).getGame()
-				.inputPlayerCount(Integer.parseInt(e));
+		sessions.put(game, new GameSession(game));
+		sessions.get(game).start();
 		return ok();
 	}
 
-	public static Result doDice() {
-		if (sessions.get(SUPER_USER).getGame().getStatus() == GAME_STATE.ROLL) {
-			sessions.get(SUPER_USER).getGame().doDice();
+	public static Result doDice(String game) {
+		if (sessions.get(game).getGame().getStatus() == GAME_STATE.ROLL) {
+			sessions.get(game).getGame().doDice();
 		}
 		return ok(Integer
-				.toString(sessions.get(SUPER_USER).getGame().getRoll()));
+				.toString(sessions.get(game).getGame().getRoll()));
 	}
 
-	public static WebSocket<String> socket() {
-		return sessions.get(SUPER_USER).getSockets().get(0);
+	public static WebSocket<String> socket(String game) {
+		return sessions.get(game).createGameWebSocket();
 	}
 
-	public static Result gameGrid() {
-		String message = sessions.get(SUPER_USER).getGame().getFieldCoords()
+	public static Result gameGrid(String game) {
+		String message = sessions.get(game).getGame().getFieldCoords()
 				.toString();
 		List<String> field = null;
 		List<String> stack = null;
 		List<String> target = new ArrayList<String>();
 		try {
-			stack = sessions.get(SUPER_USER).getGame().getStackCoords();
-			field = sessions.get(SUPER_USER).getGame().getFieldCoords();
-			for (int i = 0; i < sessions.get(SUPER_USER).getGame()
+			stack = sessions.get(game).getGame().getStackCoords();
+			field = sessions.get(game).getGame().getFieldCoords();
+			for (int i = 0; i < sessions.get(game).getGame()
 					.getAnzahlMitspieler(); ++i) {
-				target.addAll(sessions.get(SUPER_USER).getGame()
+				target.addAll(sessions.get(game).getGame()
 						.getTargetCoords(i));
 			}
 
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException ex) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ex.printStackTrace();
 		}
 		return ok(gamegrid.render(message, field, stack, target,
-				sessions.get(SUPER_USER).getGame().getAnzahlMitspieler()));
+				sessions.get(game).getGame().getAnzahlMitspieler()));
 	}
 
-	public static Result chooseFigure(Integer fig) {
-		sessions.get(SUPER_USER).getGame().setPickFigure(fig);
+	public static Result chooseFigure(String game, Integer fig) {
+		sessions.get(game).getGame().setPickFigure(fig);
 		return ok();
 	}
 
 	// public static Result webGui() {
 	// return ok(webgui.render());
 	// }
+	
+	public static Result getLobby(){
+		return ok(de.paju.mensch.play.views.html.lobby.render(sessions.keySet()));
+	}
+	
+	public static Result begin(String game){
+		sessions.get(game).begin();
+		return ok();
+	}
 
-	public static Result exit() {
-		sessions.remove(SUPER_USER);
+	public static Result exit(String game) {
+		//TODO Aufräumen, aber nur für den aufrufendnen, da fehlt also noch so eine Art User id...., eventuell die GameSocket Liste als map umsetzen...
+		sessions.remove(game);
 		return ok("Game restarted");
 	}
 
-	public static Result tui(String e, String input) {
+	public static Result tui(String game, String input) {
 		// String output = tui.nextStep(e, input);
 		return ok(webtui.render(""));
 	}

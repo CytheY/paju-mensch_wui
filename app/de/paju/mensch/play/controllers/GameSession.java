@@ -9,18 +9,19 @@ import de.paju.mensch.play.uis.WebGUI;
 import de.paju.mensch.play.uis.websockets.GameWebSocket;
 
 public class GameSession {
+	
+	private String gameName;
 	private Controller game;
 	private List<IObserver> observers;
 	private List<GameWebSocket> sockets;
 	
-	public GameSession() {
+	public GameSession(String gameName) {
 		super();
+		this.gameName = gameName;
 		observers = new ArrayList<IObserver>();
 		sockets = new ArrayList<GameWebSocket>();
 		game = new Controller();
-		GameWebSocket sock = new GameWebSocket();
-		sockets.add(sock);
-		observers.add(new WebGUI(game, sock));
+		observers.add(new WebGUI(this.gameName, game, sockets));
 	}
 	
 	public void start(){
@@ -29,24 +30,18 @@ public class GameSession {
 		}
 		game.start();
 	}
+	
+	public GameWebSocket createGameWebSocket(){
+		GameWebSocket sock = new GameWebSocket();
+		sockets.add(sock);
+		return sock;
+	}
+	
+	public void begin() {
+		game.inputPlayerCount(sockets.size());
+	}
 
 	public Controller getGame() {
 		return game;
-	}
-
-	public void setGame(Controller game) {
-		this.game = game;
-	}
-
-	public List<IObserver> getObservers() {
-		return observers;
-	}
-
-	public void setObservers(List<IObserver> observers) {
-		this.observers = observers;
-	}
-
-	public List<GameWebSocket> getSockets() {
-		return sockets;
 	}
 }

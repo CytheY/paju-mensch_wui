@@ -1,5 +1,7 @@
-$(document).ready(function(){
-	socket = new WebSocket('ws:' + window.location.host + '/socket');
+var socket;
+
+function getWebSocket(){
+	socket = new WebSocket('ws:' + window.location.host + '/socket?game='+sessionStorage.game);
 	socket.onmessage = function(message){
 		console.log(message);
 		var json = $.parseJSON(message.data);
@@ -34,6 +36,7 @@ $(document).ready(function(){
 			clearDice();
 		}
 		if(json.figures){
+			console.log("Got figures")
 			$(json.figures).each(function(){
 				var id = this.id;
 				$('#gameCell_'+this.position).addClass('player'+this.playerID);
@@ -52,4 +55,4 @@ $(document).ready(function(){
 			});
 		}
 	};
-});
+}

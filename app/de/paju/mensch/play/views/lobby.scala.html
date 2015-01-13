@@ -1,0 +1,6 @@
+@(games: Set[String])
+@if(games != null){
+  		@games.map{ game =>
+   		<input type="button" onclick="join('@game')" value="@game"/>
+	}
+}

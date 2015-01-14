@@ -16,14 +16,16 @@ public class GameSession {
 	private Controller game;
 	private List<IObserver> observers;
 	private Map<String, GameWebSocket> sockets;
+	private Map<String, Integer> players;
 	
 	public GameSession(String gameName) {
 		super();
 		this.gameName = gameName;
 		observers = new ArrayList<IObserver>();
 		sockets = new HashMap<String, GameWebSocket>();
+		players = new HashMap<String, Integer>();
 		game = new Controller();
-		observers.add(new WebGUI(this.gameName, game, sockets));
+		observers.add(new WebGUI(game, sockets));
 	}
 	
 	public void start(){
@@ -36,27 +38,26 @@ public class GameSession {
 	public GameWebSocket createGameWebSocket(String player){
 		GameWebSocket sock = new GameWebSocket();
 		sockets.put(player, sock);
+		players.put(player, players.size());
 		return sock;
 	}
 	
 	public void begin() {
 		game.inputPlayerCount(sockets.size());
-		List<String> targets = new ArrayList<String>();
-		for (int i = 0 ; i < game.getAnzahlMitspieler() ; i++) {
-			for(int j = 0 ; j < game.getTargetFigureArray(i).length ; ++j){
-				if(game.getTargetFigureArray(i)[j] != null)
-					targets.add("{ \"id\":" + game.getTargetFigureArray(i)[j].getFigureID() +", \"playerID\": " + game.getTargetFigureArray(i)[j].getPlayerID() + ", \"targetPos\": " + j  + "}");
-			}
-		}
 		for (GameWebSocket gameWebSocket : sockets.values()) {
-			gameWebSocket.showGameFrame(Application.gameGrid(gameName).toString(), game.getPgArray(), targets);
+			gameWebSocket.showGameFrame(Application.gameGrid(gameName).toString());
 		}
 	}
 	
 	public int removePlayer(String player) {
 		GameWebSocket sock = sockets.remove(player);
 		sock.close();
+		players.remove(player);
 		return sockets.size();
+	}
+	
+	public int getPlayerId(String player){
+		return players.get(player);
 	}
 
 	public Controller getGame() {

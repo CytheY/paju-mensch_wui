@@ -46,12 +46,14 @@ public class Application extends play.mvc.Controller {
 		return ok();
 	}
 
-	public static Result doDice(String game) {
-		if (sessions.get(game).getGame().getStatus() == GAME_STATE.ROLL) {
+	public static Result doDice(String game, String player) {
+		if (sessions.get(game).getGame().getStatus() == GAME_STATE.ROLL && sessions.get(game).getPlayerId(player) == sessions.get(game).getGame().getActivePlayer().getPlayerID()) {
 			sessions.get(game).getGame().doDice();
+			return ok(Integer
+					.toString(sessions.get(game).getGame().getRoll()));
 		}
-		return ok(Integer
-				.toString(sessions.get(game).getGame().getRoll()));
+		return ok();
+		
 	}
 
 	public static WebSocket<String> socket(String game, String player) {
@@ -81,8 +83,9 @@ public class Application extends play.mvc.Controller {
 				sessions.get(game).getGame().getAnzahlMitspieler()));
 	}
 
-	public static Result chooseFigure(String game, Integer fig) {
-		sessions.get(game).getGame().setPickFigure(fig);
+	public static Result chooseFigure(String game, Integer fig, String player) {
+		if(sessions.get(game).getGame().getStatus() == GAME_STATE.CHOOSE_FIG && sessions.get(game).getPlayerId(player) == sessions.get(game).getGame().getActivePlayer().getPlayerID())
+				sessions.get(game).getGame().setPickFigure(fig);
 		return ok();
 	}
 

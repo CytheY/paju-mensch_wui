@@ -54,7 +54,7 @@ function getWebSocket(){
 		}
 		if(json.targets){
 			$(json.targets).each(function(){
-				var index = this.playerID+this.position;
+				var index = this.playerID*4+this.position;
 				$('#targetCell_'+index).removeClass('empty');
 				$('.stackCell.player'+this.playerID+'.figure'+this.id).addClass('empty');
 			});

@@ -48,7 +48,7 @@ function exit(){
 
 function doDice(){
 	$.ajax({
-		url: "doDice?game="+sessionStorage.game,
+		url: "doDice?game="+sessionStorage.game+ "&player="+sessionStorage.player,
 		context: document.body
 	});
 }
@@ -69,7 +69,7 @@ function clearDice(){
 
 function chooseFig(s){
 	$.ajax({
-		url: "fig?game="+sessionStorage.game + "&figure="+s,
+		url: "fig?game="+sessionStorage.game + "&figure="+s + "&player="+sessionStorage.player,
 		context: document.body,
 	});
 }

@@ -1,6 +1,6 @@
 package de.paju.mensch.play.uis.websockets;
 
-import java.util.List;
+import java.util.Map;
 
 import play.libs.F.Callback;
 import play.libs.F.Callback0;
@@ -39,28 +39,10 @@ public class GameWebSocket extends WebSocket<String> {
 		out.write("{\"status\":\"" + status + "\"}");
 	}
 	
-	public void showGameFrame(String gameFrame, Figure[] figures, List<String> targets){
+	public void showGameFrame(String gameFrame){
 		System.out.println("send gameframe");
 		ObjectNode result = Json.newObject();
 		result.put("gamegrid", true);
-		if(figures != null){
-			ArrayNode jsonFigures = result.putArray("figures");
-			for (Figure figure : figures) {
-				if(figure != null && figure.getWeglaenge() <= Controller.MAX_GEFAHRENE_WEG_LAENGE){
-					ObjectNode jsonFigure = Json.newObject();
-					jsonFigure.put("id", figure.getFigureID());
-					jsonFigure.put("playerID", figure.getPlayerID());
-					jsonFigure.put("position", figure.getFigurePos());
-					jsonFigures.add(jsonFigure);
-				}
-			}
-		}
-		if(targets != null && !targets.isEmpty()){
-			ArrayNode jsonTargets = result.putArray("targets");
-			for (String target : targets) {
-				jsonTargets.add(target);
-			}
-		}
 		out.write(result.toString());
 	}
 	
@@ -78,7 +60,7 @@ public class GameWebSocket extends WebSocket<String> {
 		out.write(result.toString());
 	}
 	
-	public void updateFigures(Figure[] figures, List<Figure> targets){
+	public void updateFigures(Figure[] figures, Map<Figure, Integer> targets){
 		System.out.println("send figures");
 		ObjectNode result = Json.newObject();
 		ArrayNode jsonFigures = result.putArray("figures");
@@ -92,12 +74,12 @@ public class GameWebSocket extends WebSocket<String> {
 			}
 		}
 		ArrayNode jsonTargets = result.putArray("targets");
-		for (Figure target : targets) {
+		for (Figure target : targets.keySet()) {
 			if(target != null){
 				ObjectNode jsonTarget = Json.newObject();
 				jsonTarget.put("id", target.getFigureID());
 				jsonTarget.put("playerID", target.getPlayerID());
-				jsonTarget.put("position", target.getFigurePos());
+				jsonTarget.put("position", targets.get(target));
 				jsonTargets.add(jsonTarget);
 			}
 		}

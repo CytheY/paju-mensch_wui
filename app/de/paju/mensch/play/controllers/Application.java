@@ -103,7 +103,7 @@ public class Application extends play.mvc.Controller {
 		//TODO Aufräumen, aber nur für den aufrufendnen, da fehlt also noch so eine Art User id...., eventuell die GameSocket Liste als map umsetzen...
 		if(sessions.get(game).removePlayer(player) < 1)
 			sessions.remove(game);
-		return ok("Game restarted");
+		return ok();
 	}
 
 	public static Result tui(String game, String input) {

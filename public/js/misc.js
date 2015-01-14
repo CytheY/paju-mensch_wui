@@ -5,6 +5,8 @@ function getGameGrid(){
 		async: false
 	}).done(function(data) {
 		$("#gameGrid").css('display', 'block');
+		$("#status").css('display', 'block');
+		$("#dice").css('display', 'block');
 		$("#gameGrid").html(data);
 		$("#lobby").css('display', 'none');
 	});
@@ -39,6 +41,8 @@ function exit(){
 		sessionStorage.clear();
 		socket.close();
 		$("#gameGrid").css('display', 'none');
+		$("#status").css('display', 'none');
+		$("#dice").css('display', 'none');
 	});
 }
 

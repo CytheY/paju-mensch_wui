@@ -37,7 +37,7 @@ public class Application extends play.mvc.Controller {
 		return ok(de.paju.mensch.play.views.html.main.render("PajuMensch"));
 	}
 
-	public static Result init(String game) {
+	public static Result init(String game, String player) {
 		if(sessions.containsKey(game)){
 			return ok("Spiel existiert bereits!");
 		}
@@ -54,8 +54,8 @@ public class Application extends play.mvc.Controller {
 				.toString(sessions.get(game).getGame().getRoll()));
 	}
 
-	public static WebSocket<String> socket(String game) {
-		return sessions.get(game).createGameWebSocket();
+	public static WebSocket<String> socket(String game, String player) {
+		return sessions.get(game).createGameWebSocket(player);
 	}
 
 	public static Result gameGrid(String game) {
@@ -99,9 +99,10 @@ public class Application extends play.mvc.Controller {
 		return ok();
 	}
 
-	public static Result exit(String game) {
+	public static Result exit(String game, String player) {
 		//TODO Aufräumen, aber nur für den aufrufendnen, da fehlt also noch so eine Art User id...., eventuell die GameSocket Liste als map umsetzen...
-		sessions.remove(game);
+		if(sessions.get(game).removePlayer(player) < 1)
+			sessions.remove(game);
 		return ok("Game restarted");
 	}
 

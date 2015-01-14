@@ -11,12 +11,12 @@ import de.paju.mensch.model.Figure;
 
 public class GameWebSocket extends WebSocket<String> {
 	
-	private List<Out<String>> outs = new ArrayList<Out<String>>();
+	private Out<String> out;
 
 	@Override
 	public void onReady(play.mvc.WebSocket.In<String> in,
 			play.mvc.WebSocket.Out<String> out) {
-		outs.add(out);
+		this.out = out;
 		in.onMessage(new Callback<String>(){
 			@Override
 			public void invoke(String event) throws Throwable {
@@ -32,9 +32,7 @@ public class GameWebSocket extends WebSocket<String> {
 	}
 	
 	public void updateStatus(String status){
-		for (Out<String> out : outs) {
-			out.write("{\"status\":\"" + status + "\"}");
-		}
+		out.write("{\"status\":\"" + status + "\"}");
 	}
 	
 	public void showGameFrame(String gameFrame, Figure[] figures, List<String> targets){
@@ -67,23 +65,17 @@ public class GameWebSocket extends WebSocket<String> {
 			message.append("]");
 		}
 		message.append("}");
-		for (Out<String> out : outs) {
-			out.write(message.toString());
-		}
+		out.write(message.toString());
 	}
 	
 	public void updateDice(int i){
 		System.out.println("send dice");
-		for (Out<String> out : outs) {
-			out.write("{\"dice\":\"" + i + "\"}");
-		}
+		out.write("{\"dice\":\"" + i + "\"}");
 	}
 	
 	public void updatePlayer(int i){
 		System.out.println("send player");
-		for (Out<String> out : outs) {
-			out.write("{\"player\":\"" + i + "\"}");
-		}
+		out.write("{\"player\":\"" + i + "\"}");
 	}
 	
 	public void updateFigures(Figure[] figures){
@@ -97,8 +89,10 @@ public class GameWebSocket extends WebSocket<String> {
 		message.deleteCharAt(message.length()-1);
 		message.append("]}");
 		System.out.println(message.toString());
-		for (Out<String> out : outs) {
-			out.write(message.toString());
-		}
+		out.write(message.toString());
+	}
+	
+	public void close(){
+		out.close();
 	}
 }

@@ -1,7 +1,7 @@
 var socket;
 
 function getWebSocket(){
-	socket = new WebSocket('ws:' + window.location.host + '/socket?game='+sessionStorage.game);
+	socket = new WebSocket('ws:' + window.location.host + '/socket?game='+sessionStorage.game + "&player="+sessionStorage.player);
 	socket.onmessage = function(message){
 		console.log(message);
 		var json = $.parseJSON(message.data);

@@ -41,6 +41,16 @@ public class GameSession {
 	
 	public void begin() {
 		game.inputPlayerCount(sockets.size());
+		List<String> targets = new ArrayList<String>();
+		for (int i = 0 ; i < game.getAnzahlMitspieler() ; i++) {
+			for(int j = 0 ; j < game.getTargetFigureArray(i).length ; ++j){
+				if(game.getTargetFigureArray(i)[j] != null)
+					targets.add("{ \"id\":" + game.getTargetFigureArray(i)[j].getFigureID() +", \"playerID\": " + game.getTargetFigureArray(i)[j].getPlayerID() + ", \"targetPos\": " + j  + "}");
+			}
+		}
+		for (GameWebSocket gameWebSocket : sockets.values()) {
+			gameWebSocket.showGameFrame(Application.gameGrid(gameName).toString(), game.getPgArray(), targets);
+		}
 	}
 	
 	public int removePlayer(String player) {

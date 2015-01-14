@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.paju.mensch.controller.Controller;
+import de.paju.mensch.model.Figure;
 import de.paju.mensch.observer.IObserver;
 import de.paju.mensch.play.controllers.Application;
 import de.paju.mensch.play.uis.websockets.GameWebSocket;
@@ -70,25 +71,24 @@ public class WebGUI implements IObserver {
 
 	@Override
 	public void updatePrintFigures() {
-//		Figure[] pgs = controller.getPgArray();
-//		if(pgs != null){
-//			gameWebSocket.updateFigures(pgs);
-//		}
+		System.out.println("updatePrintFigures called");
+		Figure[] pgs = controller.getPgArray();
+		List<Figure> targets = new ArrayList<Figure>();
+		for (int i = 0; i < controller.getAnzahlMitspieler(); i++) {
+			for (int j = 0; j < controller.getTargetFigureArray(i).length; ++j) {
+				if (controller.getTargetFigureArray(i)[j] != null)
+					targets.add(controller.getTargetFigureArray(i)[j]);
+			}
+		}
+		for (GameWebSocket gameWebSocket : sockets.values()) {
+			gameWebSocket.updateFigures(pgs, targets);
+		}
 	}
 
 	@Override
 	public void updateShowGameFrame() {
 		System.out.println("updateShowGameFrame called");
-		List<String> targets = new ArrayList<String>();
-		for (int i = 0 ; i < controller.getAnzahlMitspieler() ; i++) {
-			for(int j = 0 ; j < controller.getTargetFigureArray(i).length ; ++j){
-				if(controller.getTargetFigureArray(i)[j] != null)
-					targets.add("{ \"id\":" + controller.getTargetFigureArray(i)[j].getFigureID() +", \"playerID\": " + controller.getTargetFigureArray(i)[j].getPlayerID() + ", \"targetPos\": " + j  + "}");
-			}
-		}
-		for (GameWebSocket gameWebSocket : sockets.values()) {
-			gameWebSocket.showGameFrame(Application.gameGrid(gameName).toString(), controller.getPgArray(), targets);
-		}
+		updatePrintFigures();
 	}
 
 }

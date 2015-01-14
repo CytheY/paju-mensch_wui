@@ -1,11 +1,15 @@
 package de.paju.mensch.play.uis.websockets;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import play.libs.F.Callback;
 import play.libs.F.Callback0;
+import play.libs.Json;
 import play.mvc.WebSocket;
+
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import de.paju.mensch.controller.Controller;
 import de.paju.mensch.model.Figure;
 
@@ -37,59 +41,68 @@ public class GameWebSocket extends WebSocket<String> {
 	
 	public void showGameFrame(String gameFrame, Figure[] figures, List<String> targets){
 		System.out.println("send gameframe");
-		StringBuilder message = new StringBuilder();
-		message.append("{\"gamegrid\":" + true );
+		ObjectNode result = Json.newObject();
+		result.put("gamegrid", true);
 		if(figures != null){
-			boolean found = false;
-			message.append(",\"figures\": [");
+			ArrayNode jsonFigures = result.putArray("figures");
 			for (Figure figure : figures) {
 				if(figure != null && figure.getWeglaenge() <= Controller.MAX_GEFAHRENE_WEG_LAENGE){
-					message.append("{ \"id\":" + figure.getFigureID() +", \"playerID\": " + figure.getPlayerID() + ", \"position\": " + figure.getFigurePos() + "},");
-					found = true;
+					ObjectNode jsonFigure = Json.newObject();
+					jsonFigure.put("id", figure.getFigureID());
+					jsonFigure.put("playerID", figure.getPlayerID());
+					jsonFigure.put("position", figure.getFigurePos());
+					jsonFigures.add(jsonFigure);
 				}
 			}
-			if(found)
-				message.deleteCharAt(message.length()-1);
-			message.append("]");
 		}
 		if(targets != null && !targets.isEmpty()){
-			boolean found = false;
-			message.append(",\"targets\": [");
+			ArrayNode jsonTargets = result.putArray("targets");
 			for (String target : targets) {
-					message.append(target);
-					message.append(",");
-					found = true;
+				jsonTargets.add(target);
 			}
-			if(found)
-				message.deleteCharAt(message.length()-1);
-			message.append("]");
 		}
-		message.append("}");
-		out.write(message.toString());
+		out.write(result.toString());
 	}
 	
 	public void updateDice(int i){
 		System.out.println("send dice");
-		out.write("{\"dice\":\"" + i + "\"}");
+		ObjectNode result = Json.newObject();
+		result.put("dice", i);
+		out.write(result.toString());
 	}
 	
 	public void updatePlayer(int i){
 		System.out.println("send player");
-		out.write("{\"player\":\"" + i + "\"}");
+		ObjectNode result = Json.newObject();
+		result.put("player", i);
+		out.write(result.toString());
 	}
 	
-	public void updateFigures(Figure[] figures){
+	public void updateFigures(Figure[] figures, List<Figure> targets){
 		System.out.println("send figures");
-		StringBuilder message = new StringBuilder();
-		message.append("{\"figures\": [");
+		ObjectNode result = Json.newObject();
+		ArrayNode jsonFigures = result.putArray("figures");
 		for (Figure figure : figures) {
-			if(figure != null)
-				message.append("{ \"id\":" + figure.getFigureID() +", \"playerID\": " + figure.getPlayerID() + ", \"position\": " + figure.getFigurePos() + "},");
+			if(figure != null && figure.getWeglaenge() <= Controller.MAX_GEFAHRENE_WEG_LAENGE){
+				ObjectNode jsonFigure = Json.newObject();
+				jsonFigure.put("id", figure.getFigureID());
+				jsonFigure.put("playerID", figure.getPlayerID());
+				jsonFigure.put("position", figure.getFigurePos());
+				jsonFigures.add(jsonFigure);
+			}
 		}
-		message.deleteCharAt(message.length()-1);
-		message.append("]}");
-		System.out.println(message.toString());
-		out.write(message.toString());
+		ArrayNode jsonTargets = result.putArray("targets");
+		for (Figure target : targets) {
+			if(target != null){
+				ObjectNode jsonTarget = Json.newObject();
+				jsonTarget.put("id", target.getFigureID());
+				jsonTarget.put("playerID", target.getPlayerID());
+				jsonTarget.put("position", target.getFigurePos());
+				jsonTargets.add(jsonTarget);
+			}
+		}
+		out.write(result.toString());
+		
 	}
 	
 	public void close(){

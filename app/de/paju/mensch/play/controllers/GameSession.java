@@ -8,7 +8,6 @@ import java.util.Map;
 import de.paju.mensch.controller.Controller;
 import de.paju.mensch.observer.IObserver;
 import de.paju.mensch.play.uis.WebGUI;
-import de.paju.mensch.play.uis.websockets.GameWebSocket;
 
 public class GameSession {
 	

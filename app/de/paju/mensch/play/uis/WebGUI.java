@@ -6,7 +6,7 @@ import java.util.Map;
 import de.paju.mensch.controller.Controller;
 import de.paju.mensch.model.Figure;
 import de.paju.mensch.observer.IObserver;
-import de.paju.mensch.play.uis.websockets.GameWebSocket;
+import de.paju.mensch.play.controllers.GameWebSocket;
 
 public class WebGUI implements IObserver {
 	

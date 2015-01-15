@@ -1,4 +1,4 @@
-package de.paju.mensch.play.uis.websockets;
+package de.paju.mensch.play.controllers;
 
 import java.util.Map;
 

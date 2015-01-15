@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import play.mvc.WebSocket;
 import de.paju.mensch.controller.Controller;
 import de.paju.mensch.observer.IObserver;
+import de.paju.mensch.play.chat.ChatRoom;
 import de.paju.mensch.play.uis.WebGUI;
 
 public class GameSession {
@@ -16,6 +18,7 @@ public class GameSession {
 	private List<IObserver> observers;
 	private Map<String, GameWebSocket> sockets;
 	private Map<String, Integer> players;
+	private ChatRoom chat;
 	
 	public GameSession(String gameName) {
 		super();
@@ -23,6 +26,7 @@ public class GameSession {
 		observers = new ArrayList<IObserver>();
 		sockets = new HashMap<String, GameWebSocket>();
 		players = new HashMap<String, Integer>();
+		chat = new ChatRoom();
 		game = new Controller();
 		observers.add(new WebGUI(game, sockets));
 	}
@@ -61,5 +65,9 @@ public class GameSession {
 
 	public Controller getGame() {
 		return game;
+	}
+
+	public WebSocket<String> enterChatRoom(String player) {
+		return chat.enterChatRoom(player);
 	}
 }

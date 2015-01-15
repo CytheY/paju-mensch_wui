@@ -25,6 +25,7 @@ function startGame(){
 				sessionStorage.game = s;
 				sessionStorage.player = player;
 				getWebSocket();
+				getChatSocket();
 			}
 			else
 				alert("Ein Spiel mit dem Namen \"" + s + "\" exitiert bereits!");
@@ -93,6 +94,7 @@ function join(game){
 	sessionStorage.player = prompt('Spielernamer: ', 'Spielername');
 	sessionStorage.game = game;
 	getWebSocket();
+	getChatSocket();
 }
 
 function begin(){

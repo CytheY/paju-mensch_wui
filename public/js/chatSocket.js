@@ -12,13 +12,3 @@ function getChatSocket(){
 	};
 	$('#chatInputContainer').css('display', 'block');
 }
-
-//function sendMessage(){
-//	var message = $('#chatInput').val();
-//	if (message == '') return;
-//		$('#chatInput').val('');
-//	var jMessage = new Object();
-//	jMessage.player = sessionStorage.player;
-//	jMessage.message = message;
-//	chatSocket.send(JSON.stringify(jMessage));
-//}

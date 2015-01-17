@@ -66,6 +66,9 @@ public class Application extends play.mvc.Controller {
 	}
 
 	public static WebSocket<String> socket(String game, String player) {
+		for (LobbyWebSocket lobbyWebSocket : lobbySockets) {
+			lobbyWebSocket.refreshLobby(sessions);
+		}
 		return sessions.get(game).createGameWebSocket(player);
 	}
 	

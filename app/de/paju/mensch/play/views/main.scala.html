@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 
-<html>
+<html ng-app="menschApp">
     <head>
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	    <title>@title</title>    
@@ -16,6 +16,25 @@
 		<script src='@routes.Assets.at("js/misc.js")'></script>
 		<script src='@routes.Assets.at("js/socket.js")'></script>
 		<script src='@routes.Assets.at("js/chatSocket.js")'></script>
+		
+		<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular.min.js"></script>
+		<script>
+	      var menschApp = angular.module('menschApp', []);
+	      var scope;
+	      menschApp.controller('MenschCtrl', function ($scope){
+	    	  scope = $scope;
+		  });
+	      menschApp.controller('MenschSend', function ($scope){
+	    	  $scope.sendMessage = function() {
+	    			if ($scope.enteredMessage == '') return;
+	    			var jMessage = new Object();
+	    			jMessage.player = sessionStorage.player;
+	    			jMessage.message = $scope.enteredMessage;
+	    			chatSocket.send(JSON.stringify(jMessage));
+	    			$scope.enteredMessage = '';
+		      };
+          });
+	    </script>
     </head>
     <body>
     	<nav class="navbar navbar-default">
@@ -25,23 +44,39 @@
 				</div>
 					<ul class="nav navbar-nav">
 	                <li id="buttonNew"><a href="#" onclick="startGame();">Neues Spiel</a></li>
-	                <li id="buttonEnter"><a href="#" onclick="startGame();">Spiel Beitreten</a></li>
 	                <li id="buttonLobby"><a href="#" onclick="refreshLobby();">Lobby aktualisieren</a></li>
 	                <li id="buttonStart"><a href="#" onclick="begin();">Spiel starten</a></li>
-	                <!-- li id="buttonDice"><a href="#" onclick="doDice();">Dice</a></li-->
-	                <!--li id="buttonChooseFig"><a href="#" onclick="chooseFig();">Choose Figure</a></li-->
 	                <li id="buttonExit"><a href="#" onclick="exit();">Exit</a></li>
 	            </ul>
 			</div>
 		</nav>
-		<div class="container" id="status"></div>
-	    <div class="container" id="mainContainer">
+		<div class="container-fluid" id="status"></div>
+	    <div class="container-fluid" id="mainContainer">
 		    <div class=”row”>
-	       		<div class="container col-md-4" id="gameGrid"></div>
-	       		<div class="container col-md-4" id="lobby"></div>
-	       		<div class="container col-md-4" id="chat"></div>
+	       		<div class="col-md-3" id="lobby"></div>
+	       		<div class="col-md-6" id="gameGrid">
+	       			<div id="gameGridContainer" class="container"></div>
+	       		</div>
+	       		<div class="col-md-3" id="chat">
+	       			<div ng-controller="MenschCtrl">
+						<p ng-repeat="message in messages" class="player{{message.playerId}}Chat">{{message.player}}: {{message.message}}</p>
+	       			</div>
+	       		</div>
 	       	</div>
        	</div>
-       	<div class="container" id="dice"></div>
+       	<div class="container-fluid" id="diceContainer">
+       		<div class=”row”>
+       			<div class="col-md-3"></div>
+       			<div class="col-md-6">
+       				<div class="container" id="dice"></div>
+       			</div>
+       			<div class="col-md-3" ng-controller="MenschSend" id="chatInputContainer" style="display:none">
+	       			<form ng-submit="sendMessage()">
+					    <textarea id="chatInput" ng-model="enteredMessage"></textarea>
+					    <input id="chatButton" type="submit" value="Send">
+				    </form>
+       			</div>
+       		</div>
+       	</div>
     </body>
 </html>

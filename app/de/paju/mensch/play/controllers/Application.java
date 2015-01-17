@@ -11,9 +11,6 @@ import play.libs.F;
 import play.libs.openid.OpenID;
 import play.mvc.Result;
 import play.mvc.WebSocket;
-
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import de.paju.mensch.controller.Controller.GAME_STATE;
 import de.paju.mensch.play.views.html.gamegrid;
 import de.paju.mensch.play.views.html.login;
@@ -64,7 +61,7 @@ public class Application extends play.mvc.Controller {
 	}
 	
 	public static WebSocket<String> chatSocket(String game, String player) {
-		return sessions.get(game).enterChatRoom(player);
+		return sessions.get(game).enterChatRoom(player, sessions.get(game).getPlayerId(player));
 	}
 
 	public static Result gameGrid(String game) {

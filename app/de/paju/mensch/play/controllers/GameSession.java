@@ -55,6 +55,7 @@ public class GameSession {
 	public int removePlayer(String player) {
 		GameWebSocket sock = sockets.remove(player);
 		sock.close();
+		chat.leaveChatRoom(player);
 		players.remove(player);
 		return sockets.size();
 	}
@@ -67,7 +68,7 @@ public class GameSession {
 		return game;
 	}
 
-	public WebSocket<String> enterChatRoom(String player) {
-		return chat.enterChatRoom(player);
+	public WebSocket<String> enterChatRoom(String player, int i) {
+		return chat.enterChatRoom(player, i);
 	}
 }

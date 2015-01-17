@@ -1,14 +1,13 @@
+$(document).ready(refreshLobby);
+
 function getGameGrid(){
 	$.ajax({
 		url: "gameGrid?game="+sessionStorage.game,
 		context: document.body,
 		async: false
 	}).done(function(data) {
-		$("#gameGrid").css('display', 'block');
-		$("#status").css('display', 'block');
 		$("#dice").css('display', 'block');
-		$("#gameGrid").html(data);
-		$("#lobby").css('display', 'none');
+		$("#gameGridContainer").html(data);
 	});
 }
 
@@ -41,9 +40,12 @@ function exit(){
 	}).done(function(data) {
 		sessionStorage.clear();
 		socket.close();
-		$("#gameGrid").css('display', 'none');
-		$("#status").css('display', 'none');
+		$("#gameGridContainer").html('');
+		$("#status").html('');
+		scope.messages = [];
+		scope.$apply();
 		$("#dice").css('display', 'none');
+		$('#chatContainer').css('display', 'none');
 	});
 }
 
@@ -85,7 +87,6 @@ function refreshLobby(){
 		context: document.body,
 		async: false
 	}).done(function(data) {
-		$("#lobby").css('display', 'block');
 		$("#lobby").html(data);
 	});
 }
@@ -102,6 +103,4 @@ function begin(){
 		url: "begin?game="+sessionStorage.game,
 		context: document.body,
 	});
-	$("#gameGrid").css('display', 'none');
-	$("#lobby").css('display', 'block');
 }

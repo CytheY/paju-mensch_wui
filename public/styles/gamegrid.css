@@ -40,8 +40,14 @@
 	opacity: 0.5;
 }
 
-#mainContainer{
-	width:550px;
-	height:550px;
-	position:relative;
+#gameGrid{
+	min-width: 550px;
+	min-height: 575px;
+	overflow-y: auto;
+}
+
+#gameGridContainer{
+	position: relative;
+	width: 550px;
+	height: 575px;
 }

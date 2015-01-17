@@ -6,6 +6,18 @@
 	font-weight: bold;
 }
 
+#chatButton{
+	font-size:18px;
+	text-align:center;
+	width:14%;
+	height:75px;
+}
+
+#chatInput{
+	width:85%;
+	height:75px;
+}
+
 #status{
 	font-size:30px;
 	text-align:center;
@@ -22,4 +34,34 @@
 	content:url(../images/googleSign.png);
 	cursor:pointer;
 	zoom: 0.85;
+}
+
+#chat{
+	max-height: 575px;
+	overflow-y: auto;
+}
+
+#lobby{
+	max-height: 575px;
+	overflow-y: auto;
+}
+
+.player0Chat{
+	border-style: solid;
+	border-color: white green;
+}
+
+.player1Chat{
+	border-style: solid;
+	border-color: white yellow;
+}
+
+.player2Chat{
+	border-style: solid;
+	border-color: white blue;
+}
+
+.player3Chat{
+	border-style: solid;
+	border-color: white red;
 }

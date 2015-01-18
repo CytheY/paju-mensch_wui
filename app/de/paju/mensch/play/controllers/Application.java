@@ -118,7 +118,7 @@ public class Application extends play.mvc.Controller {
 	// }
 	
 	public static Result getLobby(){
-		return ok(de.paju.mensch.play.views.html.lobby.render(sessions.keySet()));
+		return ok(de.paju.mensch.play.views.html.lobby.render());
 	}
 	
 	public static Result begin(String game){

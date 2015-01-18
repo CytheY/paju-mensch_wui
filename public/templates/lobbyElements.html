@@ -1,20 +1,90 @@
 <link rel="import" href="/assets/bower_components/polymer/polymer.html">
-<link rel="import" href="/assets/bower_components/core-elements/core-elements.html">
 
 
-<polymer-element name="info-bar" noscript>
+<polymer-element name="info-bar" attributes="players session" noscript>
 	<template>
+	<style>
+      @import '/assets/styles/bootstrap.min.css';
+    </style> 
 		<div>
-			<p> das ist ein Test 1 </p>
+			<ul class="list-group">
+				<h3>Aktive Spieler:</h3>
+			  	<template repeat="{{player in players}}">
+  					<li class="list-group-item">{{player.name}}</li>
+  				</template>
+  				<input class="btn btn-primary btn-lg" type="button" onclick="join('{{session}}')" value="Join Game {{session}}"/>
+			</ul>
 		</div>
 	</template>
 </polymer-element>
 
 
-<polymer-element name="gamelist">
-	<template>
-		<div>
-			<p> das ist ein Test 1 </p>
+<polymer-element name="game-list" attributes="sessions">
+	<template>  
+	<style>
+      @import '/assets/styles/bootstrap.min.css';
+    </style> 
+    	<div class=”row”>
+    		<div class="col-md-8">
+		      	<table class="table table-hover">
+		      		<thead>
+		      			<tr>
+		      				<th>Session Name</th>
+		      				<th>Status</th>
+		      				<th>Info</th>
+		      			</tr>
+		      		</thead>
+		      		<tbody>
+		      			<template repeat="{{s in sessions}}">
+		      				<tr>
+			      				<th>{{s.session}}</th>
+			      				<th>{{s.status}}</th>
+			      				<th><input type="button" value="Show Info" id="{{ s.session }}" on-click="{{updatePlayerlist}}"/></th>
+		      				</tr>
+		      			</template>
+		      		</tbody>
+				</table>
+			</div>
+			<div class="col-md-4">
+				<info-bar players="{{players}}" session="{{session}}"></info-bar>
+			</div>
 		</div>
+			
+			
 	</template>
+	<script>
+	        /**this.sessions = [
+				{"session": "Spiel1", "players": [{"name": "test1"}, {"name": "test"}], "status": "ROLL"},
+				{"session": "Spiel2", "players": [{"name": "oida"}, {"name": "wtf"}], "status": "CHOOSE_FIG"},
+				{"session": "Spiel3", "players": [{"name": "asdsad"}, {"name":"blasd"}], "status":"CHOOSE_PLAYER_COUNT"}
+			];**/
+		
+	    Polymer('game-list', {
+	      sessions: 'omg WHAT',
+	      players: '',
+	      session: '',
+	      created: function() {
+	      	this.lobbySocket = new WebSocket('ws:' + window.location.host + '/lobbySocket');
+	        outerContext = this;
+			this.lobbySocket.onmessage = function(message){
+				outerContext.updateModel(message);
+			}
+			
+      	  },
+	      ready: function() {
+ 			
+	      },
+	      updateModel: function(message){
+	      	this.sessions = JSON.parse(message.data);
+	      },
+	      updatePlayerlist: function(e) {
+	      	for(var s in this.sessions) {
+	      		if (this.sessions[s].session === e.currentTarget.id) {
+	      			this.players = this.sessions[s].players;
+	      			this.session = this.sessions[s].session;
+	      		}    	
+	      	}
+	      }
+	    });
+  </script>
 </polymer-element>

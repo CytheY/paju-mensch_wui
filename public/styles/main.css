@@ -16,6 +16,7 @@
 #chatInput{
 	width:85%;
 	height:75px;
+	float: left;
 }
 
 #status{

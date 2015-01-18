@@ -5,6 +5,8 @@
 <html ng-app="menschApp">
     <head>
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
 	    <title>@title</title>  
 	    
 	    <script src='@routes.Assets.at("js/jquery-2.1.1.min.js")'></script>
@@ -58,27 +60,32 @@
 	            </ul>
 			</div>
 		</nav>
-		<div class="container-fluid" id="status"></div>
-	    <div class="container-fluid" id="mainContainer">
-		    <div class=”row”>
-	       		<div class="col-md-3" id="lobby"></div>
-	       		<div class="col-md-6" id="gameGrid">
-	       			<div id="gameGridContainer" class="container"></div>
+		
+		<div class="container-fluid" id="lobbyContainer">
+			<div id="lobby">
+				
+			</div>
+		</div>
+		
+	    <div class="container-fluid" id="gameContainer">
+	       		<div id="status"></div>
+	       		<div class=”row”>
+		       		<div class="col-md-8" id="gameGrid">
+		       			<div id="gameGridContainer" class="container"></div>
+		       		</div>
+		       		<div class="col-md-4" id="chat">
+		       			<div ng-controller="MenschCtrl">
+							<p ng-repeat="message in messages" class="player{{message.playerId}}Chat">{{message.player}}: {{message.message}}</p>
+		       			</div>
+		       		</div>
 	       		</div>
-	       		<div class="col-md-3" id="chat">
-	       			<div ng-controller="MenschCtrl">
-						<p ng-repeat="message in messages" class="player{{message.playerId}}Chat">{{message.player}}: {{message.message}}</p>
-	       			</div>
-	       		</div>
-	       	</div>
        	</div>
        	<div class="container-fluid" id="diceContainer">
        		<div class=”row”>
-       			<div class="col-md-3"></div>
-       			<div class="col-md-6">
+       			<div class="col-md-8">
        				<div class="container" id="dice"></div>
        			</div>
-       			<div class="col-md-3" ng-controller="MenschSend" id="chatInputContainer" style="display:none">
+       			<div class="col-md-4" ng-controller="MenschSend" id="chatInputContainer" style="display:none">
 	       			<form ng-submit="sendMessage()">
 					    <textarea id="chatInput" ng-model="enteredMessage"></textarea>
 					    <input id="chatButton" type="submit" value="Send">

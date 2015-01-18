@@ -1,9 +1,1 @@
-@(games: Set[String])
-@if(games != null){
-  		@games.map{ game =>
-   		<input type="button" onclick="join('@game')" value="@game"/>
-	}
-}
-
-<info-bar></info-bar>
-<p> Das ist ein testText </p>
+<game-list></game-list>

@@ -35,8 +35,11 @@ public class GameWebSocket extends WebSocket<String> {
 		});
 	}
 	
-	public void updateStatus(String status){
-		out.write("{\"status\":\"" + status + "\"}");
+	public void updateStatus(String status, String name){
+		ObjectNode result = Json.newObject();
+		result.put("status", status);
+		result.put("activePlayer", name);
+		out.write(result.toString());
 	}
 	
 	public void showGameFrame(String gameFrame){

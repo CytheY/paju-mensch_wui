@@ -66,3 +66,7 @@
 	border-style: solid;
 	border-color: white red;
 }
+
+#buttonStart{
+	display: none;
+}

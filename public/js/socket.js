@@ -6,18 +6,26 @@ function getWebSocket(){
 		console.log(message);
 		var json = $.parseJSON(message.data);
 		if(json.status){
+			$("#status").css('display', 'none');
+			if(sessionStorage.player == json.activePlayer){
+				$("#status").css('display', 'block');
+				deactivateDice();
+			}
 			switch(json.status){
 				case "ROLL":
 					$("#status").html("Bitte Würfeln!");
 					activateDice();
+					$('#buttonStart').css('display', 'none');
 					break;
 				case "CHOOSE_FIG":
 					$("#status").html("Bitte Figure auswählen!");
 					deactivateDice();
+					$('#buttonStart').css('display', 'none');
 					break;
 				case "GAME_STOP":
 					$("#status").html("Spiel beendet!");
 					deactivateDice();
+					$('#buttonStart').css('display', 'none');
 					break;
 			}
 		}

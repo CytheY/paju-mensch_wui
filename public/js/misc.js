@@ -25,6 +25,9 @@ function startGame(){
 				sessionStorage.player = player;
 				getWebSocket();
 				getChatSocket();
+				$('#buttonNew').css('display', 'none');
+				$('#buttonStart').css('display', 'block');
+				$('#buttonExit').css('display', 'block');
 			}
 			else
 				alert("Ein Spiel mit dem Namen \"" + s + "\" exitiert bereits!");
@@ -46,6 +49,9 @@ function exit(){
 		scope.$apply();
 		$("#dice").css('display', 'none');
 		$('#chatContainer').css('display', 'none');
+		$('#buttonNew').css('display', 'block');
+		$('#buttonExit').css('display', 'none');
+		$('#buttonStart').css('display', 'none');
 	});
 }
 
@@ -96,11 +102,16 @@ function join(game){
 	sessionStorage.game = game;
 	getWebSocket();
 	getChatSocket();
+	$('#buttonNew').css('display', 'none');
+	$('#buttonExit').css('display', 'block');
+	$('#buttonStart').css('display', 'block');
 }
 
 function begin(){
 	$.ajax({
 		url: "begin?game="+sessionStorage.game,
 		context: document.body,
+	}).done(function(){
+		$('#buttonStart').css('display', 'none');
 	});
 }

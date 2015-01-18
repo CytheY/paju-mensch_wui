@@ -12,11 +12,13 @@ public class WebGUI implements IObserver {
 	
 	private Controller controller;
 	private Map<String, GameWebSocket> sockets;
+	private Map<String, Integer> players;
 	
-	public WebGUI(Controller controller, Map<String, GameWebSocket> sockets) {
+	public WebGUI(Controller controller, Map<String, GameWebSocket> sockets, Map<String, Integer> players) {
 		super();
 		this.controller = controller;
 		this.sockets = sockets;
+		this.players = players;
 	}
 
 	@Override
@@ -29,7 +31,7 @@ public class WebGUI implements IObserver {
 	public void updateChooseFigure() {
 		System.out.println("updateChooseFigure called");
 		for (GameWebSocket gameWebSocket : sockets.values()) {
-			gameWebSocket.updateStatus(controller.getStatus().toString());
+			gameWebSocket.updateStatus(controller.getStatus().toString(), getActivePlayerName());
 		}
 	}
 
@@ -37,7 +39,7 @@ public class WebGUI implements IObserver {
 	public void updateInput() {
 		System.out.println("updateInput called");
 		for (GameWebSocket gameWebSocket : sockets.values()) {
-			gameWebSocket.updateStatus(controller.getStatus().toString());
+			gameWebSocket.updateStatus(controller.getStatus().toString(), getActivePlayerName());
 		}
 	}
 
@@ -45,7 +47,7 @@ public class WebGUI implements IObserver {
 	public void updateObserversRoll() {
 		System.out.println("updateShowGameFrame called");
 		for (GameWebSocket gameWebSocket : sockets.values()) {
-			gameWebSocket.updateStatus(controller.getStatus().toString());
+			gameWebSocket.updateStatus(controller.getStatus().toString(), getActivePlayerName());
 		}
 	}
 
@@ -86,5 +88,12 @@ public class WebGUI implements IObserver {
 		System.out.println("updateShowGameFrame called");
 		updatePrintFigures();
 	}
-
+	
+	private String getActivePlayerName(){
+		for (String name : players.keySet()) {
+			if(players.get(name) == controller.getActivePlayer().getPlayerID())
+				return name;
+		}
+		return null;
+	}
 }

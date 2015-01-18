@@ -30,7 +30,7 @@ public class GameSession {
 		players = new HashMap<String, Integer>();
 		chat = new ChatRoom();
 		game = new Controller();
-		observers.add(new WebGUI(game, sockets));
+		observers.add(new WebGUI(game, sockets, players));
 	}
 	
 	public void start(){

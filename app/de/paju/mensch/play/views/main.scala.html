@@ -54,7 +54,7 @@
 				</div>
 					<ul class="nav navbar-nav">
 	                <li id="buttonNew"><a href="#" onclick="startGame();">Neues Spiel</a></li>
-	                <li id="buttonLobby"><a href="#" onclick="refreshLobby();">Lobby aktualisieren</a></li>
+	                <!--li id="buttonLobby"><a href="#" onclick="refreshLobby();">Lobby aktualisieren</a></li-->
 	                <li id="buttonStart"><a href="#" onclick="begin();">Spiel starten</a></li>
 	                <li id="buttonExit"><a href="#" onclick="exit();">Exit</a></li>
 	            </ul>
@@ -88,7 +88,7 @@
        			<div class="col-md-4" ng-controller="MenschSend" id="chatInputContainer" style="display:none">
 	       			<form ng-submit="sendMessage()">
 					    <textarea id="chatInput" ng-model="enteredMessage"></textarea>
-					    <input id="chatButton" type="submit" value="Send">
+					    <input id="chatButton" class="btn btn-primary btn-lg" type="submit" value="Send">
 				    </form>
        			</div>
        		</div>

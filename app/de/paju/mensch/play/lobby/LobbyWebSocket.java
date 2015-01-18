@@ -2,7 +2,6 @@ package de.paju.mensch.play.lobby;
 
 import java.util.Map;
 
-import play.libs.F.Callback;
 import play.libs.Json;
 import play.mvc.WebSocket;
 
@@ -14,17 +13,17 @@ import de.paju.mensch.play.controllers.GameSession;
 public class LobbyWebSocket extends WebSocket<String> {
 	
 	private Out<String> out;
+	private Map<String, GameSession> sessions;
+
+	public LobbyWebSocket(Map<String, GameSession> sessions) {
+		this.sessions = sessions;
+	}
 
 	@Override
 	public void onReady(play.mvc.WebSocket.In<String> in,
 			play.mvc.WebSocket.Out<String> out) {
 		this.out = out;
-		in.onMessage(new Callback<String>(){
-			@Override
-			public void invoke(String event) throws Throwable {
-				//TODO
-			}
-		});
+		refreshLobby(sessions);
 	}
 	
 	public void refreshLobby(Map<String, GameSession> allGames){

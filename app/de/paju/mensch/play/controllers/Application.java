@@ -77,7 +77,7 @@ public class Application extends play.mvc.Controller {
 	}
 	
 	public static WebSocket<String> getLobbySocket() {
-		LobbyWebSocket lobbyWebSocket = new LobbyWebSocket();
+		LobbyWebSocket lobbyWebSocket = new LobbyWebSocket(sessions);
 		lobbySockets.add(lobbyWebSocket);
 		return lobbyWebSocket;
 	}

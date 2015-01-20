@@ -16,16 +16,19 @@ function getWebSocket(){
 					$("#status").html("Bitte Würfeln!");
 					activateDice();
 					$('#buttonStart').css('display', 'none');
+					$('#lobbyContainer').css('display', 'none');
 					break;
 				case "CHOOSE_FIG":
 					$("#status").html("Bitte Figure auswählen!");
 					deactivateDice();
 					$('#buttonStart').css('display', 'none');
+					$('#lobbyContainer').css('display', 'none');
 					break;
 				case "GAME_STOP":
 					$("#status").html("Spiel beendet!");
 					deactivateDice();
 					$('#buttonStart').css('display', 'none');
+					$('#lobbyContainer').css('display', 'none');
 					break;
 			}
 		}

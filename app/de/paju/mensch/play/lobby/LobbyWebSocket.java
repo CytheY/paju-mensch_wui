@@ -38,7 +38,21 @@ public class LobbyWebSocket extends WebSocket<String> {
 				player.put("name", playerName);
 				players.add(player);
 			}
-			session.put("status", allGames.get(gameName).getStatus().toString());
+			switch (allGames.get(gameName).getStatus()) {
+			case CHOOSE_FIG:
+				session.put("status", "Warten auf Zug...");
+				break;
+			case ROLL:
+				session.put("status", "Warten auf Würfel...");
+				break;
+			case CHOOSE_PLAYER_COUNT:
+				session.put("status", "Warten auf Spieler...");
+				break;
+			case GAME_STOP:
+				session.put("status", "Spiel beendet...");
+				break;
+			
+			}
 			sessions.add(session);
 		}
 		out.write(sessions.toString());

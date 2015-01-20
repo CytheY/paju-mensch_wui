@@ -25,6 +25,7 @@ function startGame(){
 				sessionStorage.player = player;
 				getWebSocket();
 				getChatSocket();
+				$('#gamePlayerName').html(player);
 				$('#buttonNew').css('display', 'none');
 				$('#buttonStart').css('display', 'block');
 				$('#buttonExit').css('display', 'block');
@@ -102,6 +103,7 @@ function join(game){
 	sessionStorage.game = game;
 	getWebSocket();
 	getChatSocket();
+	$('#gamePlayerName').html(player);
 	$('#buttonNew').css('display', 'none');
 	$('#buttonExit').css('display', 'block');
 	$('#buttonStart').css('display', 'block');

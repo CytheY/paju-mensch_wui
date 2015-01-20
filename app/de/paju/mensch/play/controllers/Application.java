@@ -31,6 +31,7 @@ public class Application extends play.mvc.Controller {
 	// private static GameWebSocket gameSocket;
 	// private static WebGUI webGUI;
 
+	@play.mvc.Security.Authenticated(Secured.class)
 	public static Result index() {
 //		if (!sessions.containsKey(SUPER_USER)) {
 //			sessions.put(SUPER_USER, new GameSession());
@@ -144,16 +145,27 @@ public class Application extends play.mvc.Controller {
 		return ok(webtui.render(""));
 	}
 
-	// Form login handler
+	// Form login handlers
+	
+	
+	
 	public static Result login() {
 		return ok(login.render(Form.form(Login.class)));
+	}
+	
+	public static Result logout(){
+		session().clear();
+		return redirect(routes.Application.login());
 	}
 
 	public static Result authenticate() {
 		Form<Login> loginForm = Form.form(Login.class).bindFromRequest();
+		
 		if (loginForm.hasErrors()) {
 			return badRequest(login.render(loginForm));
 		} else {
+			Login loginData = loginForm.get();
+			session("UserName", loginData.getUser());
 			return redirect(routes.Application.index());
 		}
 	}
@@ -192,6 +204,10 @@ public class Application extends play.mvc.Controller {
 				return "Invalid user or password!";
 			}
 			return null;
+		}
+		
+		public String getUser(){
+			return this.user;
 		}
 
 	}

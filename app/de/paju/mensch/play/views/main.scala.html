@@ -26,7 +26,7 @@
 		<script src='@routes.Assets.at("js/socket.js")'></script>
 		<script src='@routes.Assets.at("js/chatSocket.js")'></script>
 		
-		<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.1/angular.min.js"></script>
+		<script src='@routes.Assets.at("js/angular.min.js")'></script>
 		<script>
 	      var menschApp = angular.module('menschApp', []);
 	      var scope;
@@ -52,11 +52,15 @@
 				<div class="navbar-header">
 					<a class="navbar-brand" href="#">@title</a>
 				</div>
-					<ul class="nav navbar-nav">
+				<ul class="nav navbar-nav">
 	                <li id="buttonNew"><a href="#" onclick="startGame();">Neues Spiel</a></li>
 	                <!--li id="buttonLobby"><a href="#" onclick="refreshLobby();">Lobby aktualisieren</a></li-->
 	                <li id="buttonStart"><a href="#" onclick="begin();">Spiel starten</a></li>
 	                <li id="buttonExit"><a href="#" onclick="exit();">Exit</a></li>
+	            </ul>
+	            <ul class="nav navbar-right">
+	            	<li id="userName"></li>
+	            	<li id="gamePlayerName"></li>
 	            </ul>
 			</div>
 		</nav>

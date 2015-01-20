@@ -6,7 +6,6 @@ function getGameGrid(){
 		context: document.body
 	}).done(function(data) {
 		$("#gameGridContainer").html(data);
-		//$("#status").css('display', 'block');
 		$("#dice").click(doDice);
 	});
 }

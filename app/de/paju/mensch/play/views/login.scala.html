@@ -20,8 +20,8 @@
 		  <p>Log in and ärgere you!</p>
 		</div>
 		<div class="row">
-			<div class="col-md-6">
-				<div class="form_wrapper container">  	
+			<div class="col-md-6 container">
+				<div class="form_wrapper">  	
 				  	@helper.form(de.paju.mensch.play.controllers.routes.Application.authenticate) {
 						@if(form.hasGlobalErrors) {
 						    <div class="alert alert-danger">@form.globalError.message</div>

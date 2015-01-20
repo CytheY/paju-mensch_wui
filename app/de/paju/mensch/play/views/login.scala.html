@@ -21,7 +21,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-6">
-				<div class="form_wrapper">  	
+				<div class="form_wrapper container">  	
 				  	@helper.form(de.paju.mensch.play.controllers.routes.Application.authenticate) {
 						@if(form.hasGlobalErrors) {
 						    <div class="alert alert-danger">@form.globalError.message</div>
@@ -47,7 +47,7 @@
 				  	
 				</div>
 			</div>
-			<div class="col-md-6">    
+			<div class="col-md-6 container">    
 			    
 				<div class="googleSign_logo" id="btnOpenID">Login with OpenID</div>		
 			</div>

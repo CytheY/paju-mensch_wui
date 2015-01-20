@@ -1,35 +1,48 @@
 <link rel="import" href="/assets/bower_components/polymer/polymer.html">
 
 
-<polymer-element name="info-bar" attributes="players session" noscript>
+<polymer-element name="info-bar" attributes="players session join">
 	<template>
-	<style>
-      @import '/assets/styles/bootstrap.min.css';
-    </style> 
 		<div>
-			<ul class="list-group">
-				<h3>Aktive Spieler:</h3>
+			<ul class="list-group" id="infoWrapper">
+				<h3>{{session}}:</h3>
 			  	<template repeat="{{player in players}}">
   					<li class="list-group-item">{{player.name}}</li>
   				</template>
-  				<input class="btn btn-primary btn-lg" type="button" onclick="join('{{session}}')" value="Join Game {{session}}"/>
-			</ul>
+  				<input id="buttonJoin" class="btn btn-primary btn-lg" type="button" on-click="{{join_poly}}" value="{{session}} beitreten"/>
+  			</ul>
+  				<input id="buttonStart" class="btn btn-primary btn-lg" type="button" onclick="begin()" value="{{session}} starten"/>
 		</div>
 	</template>
+	<script>
+	        /**this.sessions = [
+				{"session": "Spiel1", "players": [{"name": "test1"}, {"name": "test"}], "status": "ROLL"},
+				{"session": "Spiel2", "players": [{"name": "oida"}, {"name": "wtf"}], "status": "CHOOSE_FIG"},
+				{"session": "Spiel3", "players": [{"name": "asdsad"}, {"name":"blasd"}], "status":"CHOOSE_PLAYER_COUNT"}
+			];**/
+		
+	    Polymer('info-bar', {
+	      ready: function() {
+ 			
+	      },
+	      join_poly: function(){
+	    	  join(this.session);
+	    	  var pl = {"name": sessionStorage.player}
+	    	  this.players.push(pl);
+	      }
+	    });
+  		</script>
 </polymer-element>
 
 
 <polymer-element name="game-list" attributes="sessions">
 	<template>  
-	<style>
-      @import '/assets/styles/bootstrap.min.css';
-    </style> 
     	<div class=”row”>
     		<div class="col-md-8">
 		      	<table class="table table-hover">
 		      		<thead>
 		      			<tr>
-		      				<th>Session Name</th>
+		      				<th>Spiel</th>
 		      				<th>Status</th>
 		      				<th>Info</th>
 		      			</tr>
@@ -44,9 +57,10 @@
 		      			</template>
 		      		</tbody>
 				</table>
+				<input id="buttonNew" class="btn btn-primary btn-lg" type="button" on-click="{{create_poly}}" value="Spiel erstellen"/>
 			</div>
 			<div class="col-md-4">
-				<info-bar players="{{players}}" session="{{session}}"></info-bar>
+				<info-bar players="{{players}}" session="{{session}}" join="{{join_poly}}"></info-bar>
 			</div>
 		</div>
 			
@@ -68,6 +82,7 @@
 	        outerContext = this;
 			this.lobbySocket.onmessage = function(message){
 				outerContext.updateModel(message);
+				updatePlayerlist();
 			}
 			
       	  },
@@ -79,11 +94,22 @@
 	      },
 	      updatePlayerlist: function(e) {
 	      	for(var s in this.sessions) {
-	      		if (this.sessions[s].session === e.currentTarget.id) {
+	      		if(e && e.currentTarget.id)
+	      			this.target = e.currentTarget.id;
+	      		if (this.sessions[s].session === this.target) {
+	      			$('#infoWrapper').css('display', 'block');
 	      			this.players = this.sessions[s].players;
 	      			this.session = this.sessions[s].session;
-	      		}    	
+	      			return;
+	      		}  
 	      	}
+	      	if(this.players = '' && this.session == '') $('#infoWrapper').css('display', 'none');
+	      },
+	      target: '',
+	      create_poly: function(){
+	    	  var game = startGame();
+	    	  var e = {"currentTarget": {"id":sessionStorage.game}};
+	    	  this.updatePlayerlist(e);
 	      }
 	    });
   </script>

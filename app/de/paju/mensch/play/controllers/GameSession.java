@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import play.mvc.WebSocket;
 import de.paju.mensch.controller.Controller;
 import de.paju.mensch.controller.Controller.GAME_STATE;
 import de.paju.mensch.observer.IObserver;
 import de.paju.mensch.play.chat.ChatRoom;
+import de.paju.mensch.play.chat.ChatWebSocket;
 import de.paju.mensch.play.uis.WebGUI;
 
 public class GameSession {
@@ -70,7 +70,7 @@ public class GameSession {
 		return game;
 	}
 
-	public WebSocket<String> enterChatRoom(String player, int i) {
+	public ChatWebSocket enterChatRoom(String player, int i) {
 		return chat.enterChatRoom(player, i);
 	}
 
@@ -80,5 +80,13 @@ public class GameSession {
 
 	public GAME_STATE getStatus() {
 		return game.getStatus();
+	}
+
+	public GameWebSocket getGameWebSocket(String player) {
+		return sockets.get(player);
+	}
+
+	public ChatWebSocket getChatSocket(String player) {
+		return chat.getChatSocket(player);
 	}
 }

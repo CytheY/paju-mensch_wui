@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import play.mvc.WebSocket;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -20,7 +18,7 @@ public class ChatRoom {
 		players = new HashMap<String, Integer>();
 	}
 	
-	public WebSocket<String> enterChatRoom(String player, int i){
+	public ChatWebSocket enterChatRoom(String player, int i){
 		ChatWebSocket socket = new ChatWebSocket(this);
 		chatroom.put(player, socket);
 		players.put(player, i);
@@ -46,5 +44,9 @@ public class ChatRoom {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public ChatWebSocket getChatSocket(String player) {
+		return chatroom.get(player);
 	}
 }

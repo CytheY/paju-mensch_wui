@@ -3,32 +3,33 @@ $(document).ready(refreshLobby);
 function getGameGrid(){
 	$.ajax({
 		url: "gameGrid?game="+sessionStorage.game,
-		context: document.body,
-		async: false
+		context: document.body
 	}).done(function(data) {
-		$("#dice").css('display', 'block');
 		$("#gameGridContainer").html(data);
+		//$("#status").css('display', 'block');
+		$("#dice").click(doDice);
 	});
 }
 
 function startGame(){
+	if(sessionStorage.game)
+		return;
 	var s = prompt('Spielname: ', 'Spiel');
-	var player = prompt('Spielernamer: ', 'Spielername');
-	if(s != null && player != null){
+	if(s != null){
 		$.ajax({
-			url: "init?game="+s+"&player="+player,
+			url: "init?game="+s+"&player="+sessionStorage.player,
 			context: document.body,
+			async: false
 		}).done(function(data){
-			console.log(data);
 			if(data.indexOf("Spiel existiert bereits!") < 0){
 				sessionStorage.game = s;
-				sessionStorage.player = player;
 				getWebSocket();
 				getChatSocket();
-				$('#gamePlayerName').html(player);
 				$('#buttonNew').css('display', 'none');
+				$('#buttonJoin').css('display', 'none');
 				$('#buttonStart').css('display', 'block');
 				$('#buttonExit').css('display', 'block');
+				return s;
 			}
 			else
 				alert("Ein Spiel mit dem Namen \"" + s + "\" exitiert bereits!");
@@ -42,7 +43,9 @@ function exit(){
 		url: "exit?game="+sessionStorage.game + "&player="+sessionStorage.player,
 		context: document.body
 	}).done(function(data) {
+		var player = sessionStorage.player;
 		sessionStorage.clear();
+		sessionStorage.player = player;
 		socket.close();
 		$("#gameGridContainer").html('');
 		$("#status").html('');
@@ -50,9 +53,13 @@ function exit(){
 		scope.$apply();
 		$("#dice").css('display', 'none');
 		$('#chatContainer').css('display', 'none');
+		$('#chatInputContainer').css('display', 'none');
 		$('#buttonNew').css('display', 'block');
+		$('#buttonJoin').css('display', 'block');
 		$('#buttonExit').css('display', 'none');
 		$('#buttonStart').css('display', 'none');
+		$('#lobbyContainer').css('display', 'block');
+		$('#infoWrapper').css('display', 'block');
 	});
 }
 
@@ -99,12 +106,13 @@ function refreshLobby(){
 }
 
 function join(game){
-	sessionStorage.player = prompt('Spielernamer: ', 'Spielername');
+	if(sessionStorage.game)
+		return;
 	sessionStorage.game = game;
 	getWebSocket();
 	getChatSocket();
-	$('#gamePlayerName').html(player);
 	$('#buttonNew').css('display', 'none');
+	$('#buttonJoin').css('display', 'none');
 	$('#buttonExit').css('display', 'block');
 	$('#buttonStart').css('display', 'block');
 }
@@ -115,5 +123,6 @@ function begin(){
 		context: document.body,
 	}).done(function(){
 		$('#buttonStart').css('display', 'none');
+		$('#lobbyContainer').css('display', 'none');
 	});
 }

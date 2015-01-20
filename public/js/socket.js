@@ -28,7 +28,7 @@ function getWebSocket(){
 					$("#status").html("Spiel beendet!");
 					deactivateDice();
 					$('#buttonStart').css('display', 'none');
-					$('#lobbyContainer').css('display', 'none');
+					$('#lobbyContainer').css('display', 'block');
 					break;
 			}
 		}

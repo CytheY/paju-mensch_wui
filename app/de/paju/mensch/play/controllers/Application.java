@@ -12,6 +12,7 @@ import play.libs.openid.OpenID;
 import play.mvc.Result;
 import play.mvc.WebSocket;
 import de.paju.mensch.controller.Controller.GAME_STATE;
+import de.paju.mensch.play.chat.ChatWebSocket;
 import de.paju.mensch.play.lobby.LobbyWebSocket;
 import de.paju.mensch.play.views.html.gamegrid;
 import de.paju.mensch.play.views.html.login;
@@ -38,7 +39,7 @@ public class Application extends play.mvc.Controller {
 //			sessions.get(SUPER_USER).start();
 //		}
 		
-		return ok(de.paju.mensch.play.views.html.main.render("PajuMensch"));
+		return ok(de.paju.mensch.play.views.html.main.render(session().get("UserName")));
 	}
 
 	public static Result init(String game, String player) {
@@ -67,14 +68,22 @@ public class Application extends play.mvc.Controller {
 	}
 
 	public static WebSocket<String> socket(String game, String player) {
+		GameWebSocket socket = sessions.get(game).getGameWebSocket(player);
+		if(socket == null){
+			socket = sessions.get(game).createGameWebSocket(player);
+		}
 		for (LobbyWebSocket lobbyWebSocket : lobbySockets) {
 			lobbyWebSocket.refreshLobby(sessions);
 		}
-		return sessions.get(game).createGameWebSocket(player);
+		return socket;
 	}
 	
 	public static WebSocket<String> chatSocket(String game, String player) {
-		return sessions.get(game).enterChatRoom(player, sessions.get(game).getPlayerId(player));
+		ChatWebSocket socket = sessions.get(game).getChatSocket(player);
+		if(socket == null){
+			socket = sessions.get(game).enterChatRoom(player, sessions.get(game).getPlayerId(player));
+		}
+		return socket;
 	}
 	
 	public static WebSocket<String> getLobbySocket() {
@@ -188,7 +197,7 @@ public class Application extends play.mvc.Controller {
 		F.Promise<OpenID.UserInfo> userInfoPromise = OpenID.verifiedId();
 		OpenID.UserInfo userInfo = userInfoPromise.get(10000);
 		session().clear();
-		session("email", userInfo.attributes.get("Email"));
+		session("UserName", userInfo.attributes.get("Email"));
 		return redirect(routes.Application.index());
 	}
 

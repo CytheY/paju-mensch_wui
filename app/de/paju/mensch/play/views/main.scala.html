@@ -1,4 +1,4 @@
-@(title: String)
+@(user: String)
 
 <!DOCTYPE html>
 
@@ -7,7 +7,7 @@
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
-	    <title>@title</title>  
+	    <title>Mensch ärgere Dich nicht!</title>  
 	    
 	    <script src='@routes.Assets.at("js/jquery-2.1.1.min.js")'></script>
 		<script src='@routes.Assets.at("js/bootstrap.min.js")'></script>
@@ -28,14 +28,24 @@
 		
 		<script src='@routes.Assets.at("js/angular.min.js")'></script>
 		<script>
+		  sessionStorage.clear();
+		  sessionStorage.player = "@{user}";
 	      var menschApp = angular.module('menschApp', []);
 	      var scope;
 	      menschApp.controller('MenschCtrl', function ($scope){
 	    	  scope = $scope;
 		  });
 	      menschApp.controller('MenschSend', function ($scope){
-	    	  $scope.sendMessage = function() {
-	    			if ($scope.enteredMessage == '') return;
+	    	  $scope.sendMessage = function($event) {
+	    		    if($event){
+	    		    	if($event.keyCode == 13)
+	    		    		$scope.sendMessage();
+	    		    	return;
+	    		    }
+	    			if ($scope.enteredMessage == ''){
+	    				$scope.enteredMessage = '';
+	    				return;
+	    			}
 	    			var jMessage = new Object();
 	    			jMessage.player = sessionStorage.player;
 	    			jMessage.message = $scope.enteredMessage;
@@ -50,17 +60,16 @@
     	<nav class="navbar navbar-default">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="#">@title</a>
+					<a class="navbar-brand" href="#">Mensch ärgere Dich nicht!</a>
 				</div>
 				<ul class="nav navbar-nav">
-	                <li id="buttonNew"><a href="#" onclick="startGame();">Neues Spiel</a></li>
+	                <!--li id="buttonNew"><a href="#" onclick="startGame();">Neues Spiel</a></li-->
 	                <!--li id="buttonLobby"><a href="#" onclick="refreshLobby();">Lobby aktualisieren</a></li-->
-	                <li id="buttonStart"><a href="#" onclick="begin();">Spiel starten</a></li>
+	                <!--li id="buttonStart"><a href="#" onclick="begin();">Spiel starten</a></li-->
 	                <li id="buttonExit"><a href="#" onclick="exit();">Exit</a></li>
 	            </ul>
-	            <ul class="nav navbar-right">
-	            	<li id="userName"></li>
-	            	<li id="gamePlayerName"></li>
+	            <ul class="nav navbar-nav navbar-right">
+	            	<li id="userName"><a>@user</a></li>
 	            </ul>
 			</div>
 		</nav>
@@ -72,7 +81,7 @@
 		</div>
 		
 	    <div class="container-fluid" id="gameContainer">
-	       		<div id="status"></div>
+	       		<div class="statusWrapper"><div id="status"></div></div>
 	       		<div class=”row”>
 		       		<div class="col-md-8" id="gameGrid">
 		       			<div id="gameGridContainer" class="container"></div>
@@ -87,11 +96,10 @@
        	<div class="container-fluid" id="diceContainer">
        		<div class=”row”>
        			<div class="col-md-8">
-       				<div class="container" id="dice"></div>
        			</div>
        			<div class="col-md-4" ng-controller="MenschSend" id="chatInputContainer" style="display:none">
 	       			<form ng-submit="sendMessage()">
-					    <textarea id="chatInput" ng-model="enteredMessage"></textarea>
+					    <textarea id="chatInput" ng-model="enteredMessage" ng-keypress="sendMessage($event)"></textarea>
 					    <input id="chatButton" class="btn btn-primary btn-lg" type="submit" value="Send">
 				    </form>
        			</div>

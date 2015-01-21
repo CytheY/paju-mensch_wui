@@ -1,7 +1,7 @@
 var socket;
 
 function getWebSocket(){
-	socket = new WebSocket('ws:' + window.location.host + '/socket?game='+sessionStorage.game + "&player="+sessionStorage.player);
+	socket = new WebSocket('ws:shielded-sierra-6483.herokuapp.com/socket?game='+sessionStorage.game + "&player="+sessionStorage.player);
 	socket.onmessage = function(message){
 		var json = $.parseJSON(message.data);
 		if(json.status){

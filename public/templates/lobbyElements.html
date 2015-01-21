@@ -78,7 +78,7 @@
 	      players: '',
 	      session: '',
 	      created: function() {
-	      	this.lobbySocket = new WebSocket('ws:' + window.location.host + '/lobbySocket');
+	      	this.lobbySocket = new WebSocket('ws:shielded-sierra-6483.herokuapp.com/lobbySocket');
 	        outerContext = this;
 			this.lobbySocket.onmessage = function(message){
 				outerContext.updateModel(message);

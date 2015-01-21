@@ -34,7 +34,7 @@
 
 
 .googleSign_logo {
-	content:url(../images/googleSign.png);
+	content:url(../assets/images/googleSign.png);
 	cursor:pointer;
 	zoom: 0.85;
 }

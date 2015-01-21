@@ -34,11 +34,6 @@ public class Application extends play.mvc.Controller {
 
 	@play.mvc.Security.Authenticated(Secured.class)
 	public static Result index() {
-//		if (!sessions.containsKey(SUPER_USER)) {
-//			sessions.put(SUPER_USER, new GameSession());
-//			sessions.get(SUPER_USER).start();
-//		}
-		
 		return ok(de.paju.mensch.play.views.html.main.render(session().get("UserName")));
 	}
 

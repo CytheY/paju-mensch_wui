@@ -1,19 +1,6 @@
 {
-  "name": "paju-mensch_wui",
-  "version": "1.0.0",
-  "homepage": "https://github.com/CytheY/paju-mensch_wui",
-  "description": "MADN Play WebUI",
-  "license": "MIT",
-  "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
   "dependencies": {
-    "polymer": "Polymer/polymer#~0.5.2"
+    "bower": "0.6.x"
   },
   "scripts": {
     "postinstall": "./node_modules/bower/bin/bower install"
